@@ -1,15 +1,103 @@
-.characterBtnContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.createCharacter {
+  margin: 0 auto;
+  margin-bottom: 40px !important;
 }
 
-.characterBtn {
-  font-size: inherit;
+.link {
   border: 1px solid var(--text-color);
   font-size: 20px;
   padding: 10px;
   border-radius: 5px;
-  width: 300px;
+  width: 280px;
   margin: 10px 0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.link img {
+  margin-left: 10px;
+  width: 15px;
+  height: auto;
+}
+
+/* -------------------- CHARACTER SHEET -------------------- */
+h1 {
+  line-height: 30px;
+}
+
+.guild {
+  font-size: 24px;
+}
+
+br {
+  height: 10px;
+}
+
+.section {
+  border: 1px solid var(--text-color);
+  padding: 10px;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.character p {
+  width: calc(100% - 10px);
+}
+
+.section p {
+  margin: 5px;
+  font-size: 20px;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.bubble {
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+}
+
+.filled {
+  background-color: var(--text-color);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+.bubbleContainer,
+.statModifiers {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.statModifiers p {
+  margin: 0 4px;
+  font-size: 12px;
+}
+
+.labelContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.labelContainer button {
+  border: none;
+  padding: 0;
+}
+
+.labelContainer p {
+  margin: 5px 0;
 }

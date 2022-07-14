@@ -1,34 +1,29 @@
-import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom'
 import './App.css';
 
-let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
 
 const App = () => {
-  let [character, setCharacter] = useState({});
-  let [showSheet, setShowSheet] = useState(false);
 
-  const displayCharacter = (e) => {
-    for (let i = 0; i < characters.length; i++) {
-      if (characters[i].name == e.target.value) {
-        setCharacter(characters[i]);
-      }
-    }
-  }
+  let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
 
   return (
     <div>
       <h1>Your Characters</h1>
-      <a></a>
+      <a className="link createCharacter" href='https://guildsmen-ttrpg/resources/character-creator.html'>
+        Create a New Charcter
+        <img className="filter" src='/static/icons/arrow-right-solid.svg' />
+      </a>
       {characters.map((el, i) => {
         return (
           <div className="characterBtnContainer">
-            <button
-              className="characterBtn"
-              type='button'
-              key={i}
-              onClick={displayCharacter}
+            <Link
+              className="link"
+              key={`character${i}`}
+              to={el.name}
               value={el.name}
-            >{el.name}</button>
+            >
+              {el.name}
+            </Link>
           </div>
         )
       })}
