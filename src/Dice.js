@@ -13,11 +13,10 @@ const Dice = (props) => {
 
   return (
     <div>
-      <p className={`rollMessage ${props.diceState}`} id='rollMessage'>{props.rollMessage}</p>
-      <div className="diceContainer">
+      <div className={`diceContainer ${props.diceState}`}>
         <motion.div
           animate={animate1}
-          transition={{ delay: 1, duration: 1 }}
+          transition={{ duration: 1 }}
           className={`dice dice1 ${props.diceState}`}
           style={{
             rotateX: '-45deg',
@@ -79,7 +78,7 @@ const Dice = (props) => {
 
         <motion.div
           animate={animate2}
-          transition={{ delay: 1, duration: 1 }}
+          transition={{ duration: 1 }}
           className={`dice dice2 ${props.diceState}`}
           id="dice2"
           style={{
@@ -139,7 +138,7 @@ const Dice = (props) => {
           </div>
         </motion.div>
       </div>
-    </div>
+    </div >
   )
 }
 export default Dice

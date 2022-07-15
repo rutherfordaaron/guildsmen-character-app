@@ -4,10 +4,10 @@ import Dice from './Dice';
 
 const CharacterSheet = (props) => {
   let [character, setCharacter] = useState(props.character);
-  let [diceState, setDiceState] = useState('');
+  let [diceState, setDiceState] = useState('hidden');
   let [diceStyle1, setDiceStyle1] = useState({ x: -45, y: -45 });
   let [diceStyle2, setDiceStyle2] = useState({ x: -45, y: -45 });
-  let [modifier, setModifier] = useState(-1);
+  let [message, setMessage] = useState(<div />)
 
   let characterList = JSON.parse(localStorage.getItem('guildsmenCharacters'));
   let index = props.index;
@@ -18,98 +18,204 @@ const CharacterSheet = (props) => {
     localStorage.setItem('guildsmenCharacters', JSON.stringify(characterList));
   });
 
-
-  const rollDice = (e) => {
-    let modifier = e.target.value;
-    console.log(e.target);
-    const num1 = Math.floor(Math.random() * 6 + 1);
-    const num2 = Math.floor(Math.random() * 6 + 1);
-    let x1, y1, x2, y2;
+  const findXYRotation = (num1, num2) => {
+    let rotations = { x1: 0, y1: 0, x2: 0, y2: 0 }
 
     switch (num1) {
       case 1:
-        x1 = 450;
-        y1 = 360;
+        rotations.x1 = 450;
+        rotations.y1 = 360;
         break;
       case 2:
-        x1 = 540;
-        y1 = 360;
+        rotations.x1 = 540;
+        rotations.y1 = 360;
         break;
       case 3:
-        x1 = 360;
-        y1 = -450;
+        rotations.x1 = 360;
+        rotations.y1 = -450;
         break;
       case 4:
-        x1 = 360;
-        y1 = 360;
+        rotations.x1 = 360;
+        rotations.y1 = 360;
         break;
       case 5:
-        x1 = 360;
-        y1 = 450;
+        rotations.x1 = 360;
+        rotations.y1 = 450;
         break;
       case 6:
-        x1 = -450;
-        y1 = 450;
+        rotations.x1 = -450;
+        rotations.y1 = 450;
         break;
       default:
-        console.log('something went wrong!');
+        console.log(`Something went wrong! ${num1} is not a number 1 through 6.`);
     }
 
     switch (num2) {
       case 1:
-        x2 = 450;
-        y2 = 360;
+        rotations.x2 = 450;
+        rotations.y2 = 360;
         break;
       case 2:
-        x2 = 540;
-        y2 = 360;
+        rotations.x2 = 540;
+        rotations.y2 = 360;
         break;
       case 3:
-        x2 = 360;
-        y2 = -450;
+        rotations.x2 = 360;
+        rotations.y2 = -450;
         break;
       case 4:
-        x2 = 360;
-        y2 = 360;
+        rotations.x2 = 360;
+        rotations.y2 = 360;
         break;
       case 5:
-        x2 = 360;
-        y2 = 450;
+        rotations.x2 = 360;
+        rotations.y2 = 450;
         break;
       case 6:
-        x2 = -450;
-        y2 = 450;
+        rotations.x2 = -450;
+        rotations.y2 = 450;
         break;
       default:
-        console.log('something went wrong!');
+        console.log(`Something went wrong! ${num2} is not a number 1 through 6.`);
         break;
     }
-    if (diceState === 'hidden') {
-      showDice();
-      setDiceStyle1({ x: x1, y: y1 });
-      setDiceStyle2({ x: x2, y: y2 });
-    } else {
-      setDiceStyle1({ x: x1, y: y1 });
-      setDiceStyle2({ x: x2, y: y2 });
-    }
-    console.log(`${num1} + ${num2} + ${modifier}`);
+    return (rotations);
   }
 
-  const showDice = () => {
-    setDiceState('');
+
+  const rollDice = () => {
+    const num1 = Math.floor(Math.random() * 6 + 1);
+    const num2 = Math.floor(Math.random() * 6 + 1);
+    const rolls = { num1: num1, num2: num2 };
+
+    let rotations = findXYRotation(num1, num2);
+
+    if (diceState === 'hidden') {
+      setDiceState('');
+    }
+
+    setDiceStyle1({ x: rotations.x1, y: rotations.y1 });
+    setDiceStyle2({ x: rotations.x2, y: rotations.y2 });
+
+    return (rolls)
   }
 
   const resetDice = () => {
     setDiceState('hidden');
     setDiceStyle1(initialRotation);
     setDiceStyle2(initialRotation);
+    setMessage(<div />);
+  }
 
-    /*dice1.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`;
-    dice2.style.transform = `translateZ(-100px) rotateY(-45deg) rotateX(-45deg)`;*/
+  const fillBubbles = (modifier) => {
+    let fillObj = {
+      minusOne: '',
+      zero: '',
+      one: '',
+      two: '',
+      three: ''
+    }
+    switch (modifier) {
+      case 3:
+        fillObj.three = 'filled';
+      case 2:
+        fillObj.two = 'filled';
+      case 1:
+        fillObj.one = 'filled';
+      case 0:
+        fillObj.zero = 'filled';
+      case -1:
+        fillObj.minusOne = 'filled';
+        break;
+      default:
+        console.log(`Something went wrong! ${modifier} is not a number of -1 through 3.`)
+    }
+
+    return (fillObj);
+  }
+
+  const getLuckBubbles = () => {
+    let minus3, minus2, minus1, plus1, plus2, plus3 = '';
+    switch (Number(character.luck)) {
+      case 3:
+        plus3 = 'filled';
+      case 2:
+        plus2 = 'filled';
+      case 1:
+        plus1 = 'filled';
+      case -1:
+        minus1 = 'filled';
+      case -2:
+        minus2 = 'filled';
+      case -3:
+        minus3 = 'filled';
+        break;
+      default:
+        console.log(`Something went wrong! ${character.luck} is not a number between -3 and +3, excluding 0`);
+    }
+    return (
+      <div className="bubbleContainer">
+        <div className={`bubble ${minus3}`}></div>
+        <div className={`bubble ${minus2}`}></div>
+        <div className={`bubble ${minus1}`}></div>
+        <div className={`bubble ${plus1}`}></div>
+        <div className={`bubble ${plus2}`}></div>
+        <div className={`bubble ${plus3}`}></div>
+      </div>
+    )
+  }
+
+  const statCheck = (e) => {
+    let stat = {};
+    for (let i = 0; i < character.stats.length; i++) {
+      if (character.stats[i].name == e.target.value) {
+        stat = character.stats[i];
+      }
+    }
+
+    let rolls = rollDice();
+    let modifier = stat.modifier;
+    let modifierString;
+    let name = stat.name;
+
+    if (modifier > -1) {
+      modifierString = `+${modifier}`;
+    }
+
+    setMessage(
+      <div className='message'>
+        <p className="messageHead"><strong>{name} Check!</strong></p>
+        <p>You rolled {rolls.num1} and {rolls.num2}.</p>
+        <p>Your modifier is {modifierString || modifier}</p>
+        <p className="messageTotal"><strong>Total: {rolls.num1 + rolls.num2 + modifier}</strong></p>
+      </div>
+    )
+  }
+
+  const luckCheck = () => {
+    let rolls = rollDice();
+    let modifier = Number(character.luck);
+    let modifierString;
+    let name = 'Luck';
+
+    if (modifier > -1) {
+      modifierString = `+${modifier}`;
+    }
+
+    setMessage(
+      <div className='message'>
+        <p className="messageHead"><strong>{name} Check!</strong></p>
+        <p>You rolled {rolls.num1} and {rolls.num2}.</p>
+        <p>Your modifier is {modifierString || modifier}</p>
+        <p className="messageTotal"><strong>Total: {rolls.num1 + rolls.num2 + modifier}</strong></p>
+      </div>
+    )
   }
 
   return (
     <div>
+      {message}
+
       <Dice
         diceState={diceState}
         diceStyle1={diceStyle1}
@@ -141,25 +247,48 @@ const CharacterSheet = (props) => {
           </div>
         </div>
         {character.stats.map((el, i) => {
-          let one, two, three, four;
+          let fill = fillBubbles(el.modifier);
           return (
             <div key={`stat${i}`} className='stat'>
               <div className="labelContainer">
-                <button type='button' value={el.modifier} onClick={rollDice} className='diceButton'>
-                  <input type='image' value={el.modifier} onClick={rollDice} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                <button type='button' value={el.name} onClick={statCheck} className='diceButton'>
+                  <input type='image' value={el.name} onClick={statCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
                 </button>
                 <p>{el.name}:</p>
               </div>
               <div className="bubbleContainer">
-                <div className="bubble filled"></div>
-                <div className={`bubble`}></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
-                <div className="bubble"></div>
+                <div className={`bubble ${fill.minusOne}`}></div>
+                <div className={`bubble ${fill.zero}`}></div>
+                <div className={`bubble ${fill.one}`}></div>
+                <div className={`bubble ${fill.two}`}></div>
+                <div className={`bubble ${fill.three}`}></div>
               </div>
             </div>
           )
         })}
+      </div>
+
+      <div className="section luck">
+        <h2>Luck</h2>
+        <div className="stat">
+          <div></div>
+          <div className="statModifiers">
+            <p>-3</p>
+            <p>-2</p>
+            <p>-1</p>
+            <p>+1</p>
+            <p>+2</p>
+            <p>+3</p>
+          </div>
+        </div>
+        <div className="stat">
+          <div className='labelContainer'>
+            <button type='button' value={character.luck} onClick={luckCheck} className='diceButton'>
+              <input type='image' value={character.luck} onClick={luckCheck} src='/static/icons/dice-solid.svg' alt={`roll for Luck`} className='filter' />
+            </button>
+          </div>
+          {getLuckBubbles()}
+        </div>
       </div>
     </div>
   )

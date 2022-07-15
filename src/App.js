@@ -11,7 +11,7 @@ const App = () => {
       <h1>Your Characters</h1>
       <a className="link createCharacter" href='https://guildsmen-ttrpg/resources/character-creator.html'>
         Create a New Charcter
-        <img className="filter" src='/static/icons/arrow-right-solid.svg' />
+        <img className="filter" alt='' src='/static/icons/arrow-right-solid.svg' />
       </a>
       {characters.map((el, i) => {
         return (

@@ -55,6 +55,7 @@ br {
 
 h2 {
   margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .bubble {
@@ -108,4 +109,18 @@ button:focus {
 
 img {
   pointer-events: none;
+}
+
+.luck {
+  width: 175px;
+  margin: 0 auto;
+}
+
+.luck .stat {
+  justify-content: center;
+  gap: 10px
+}
+
+.luck .stat .statModifiers {
+  margin-left: 15px;
 }
