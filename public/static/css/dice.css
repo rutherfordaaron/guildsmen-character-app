@@ -121,10 +121,10 @@
   left: calc(50vw - 62.5px);
   width: 125px;
   background-color: var(--nav-color);
-  border: 3px solid var(--text-color);
+  border: 3px solid var(--text-color) !important;
   color: inherit;
   border-radius: 10px;
-  padding: 10px 20px;
+  padding: 10px 20px !important;
   font-size: inherit;
   z-index: 31;
 }

@@ -94,7 +94,7 @@ h2 {
   gap: 8px;
 }
 
-.labelContainer button {
+.characterSheet button {
   border: none;
   padding: 0;
 }
@@ -113,7 +113,7 @@ img {
 
 .luck {
   width: 175px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 .luck .stat {
@@ -123,4 +123,74 @@ img {
 
 .luck .stat .statModifiers {
   margin-left: 15px;
+}
+
+.harm .bubbleContainer {
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.harm .dying,
+.harmExpContainer,
+.skillContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skillContainer {
+  flex-direction: column;
+}
+
+.harm .dying p {
+  font-size: 14px;
+}
+
+.harm,
+.experience {
+  width: 125px;
+  margin: 20px auto;
+  height: 175px;
+}
+
+.harm h2 {
+  margin: 0;
+}
+
+.plusMinus {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.plusMinus button input {
+  width: 25px;
+  height: auto;
+}
+
+.experience .bubbleContainer {
+  justify-content: center;
+}
+
+.experience .experiencePoints {
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+  width: 60px;
+  margin: 20px auto;
+}
+
+.experiencePoints p {
+  text-align: center;
+  font-size: 24px;
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.skillContainer {
+  margin: 10px 0;
 }

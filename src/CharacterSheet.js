@@ -3,13 +3,22 @@ import './App.css';
 import Dice from './Dice';
 
 const CharacterSheet = (props) => {
-  let [character, setCharacter] = useState(props.character);
+  let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
+  let initialCharacter;
+
+  for (let i = 0; i < characters.length; i++) {
+    if (characters[i].name === props.character.name) {
+      initialCharacter = characters[i]
+    }
+  }
+
+  let [character, setCharacter] = useState(initialCharacter);
   let [diceState, setDiceState] = useState('hidden');
   let [diceStyle1, setDiceStyle1] = useState({ x: -45, y: -45 });
   let [diceStyle2, setDiceStyle2] = useState({ x: -45, y: -45 });
-  let [message, setMessage] = useState(<div />)
+  let [message, setMessage] = useState(<div />);
 
-  let characterList = JSON.parse(localStorage.getItem('guildsmenCharacters'));
+  let characterList = [...characters];
   let index = props.index;
   let initialRotation = { x: -45, y: -45 }
 
@@ -77,7 +86,6 @@ const CharacterSheet = (props) => {
         break;
       default:
         console.log(`Something went wrong! ${num2} is not a number 1 through 6.`);
-        break;
     }
     return (rotations);
   }
@@ -107,64 +115,6 @@ const CharacterSheet = (props) => {
     setMessage(<div />);
   }
 
-  const fillBubbles = (modifier) => {
-    let fillObj = {
-      minusOne: '',
-      zero: '',
-      one: '',
-      two: '',
-      three: ''
-    }
-    switch (modifier) {
-      case 3:
-        fillObj.three = 'filled';
-      case 2:
-        fillObj.two = 'filled';
-      case 1:
-        fillObj.one = 'filled';
-      case 0:
-        fillObj.zero = 'filled';
-      case -1:
-        fillObj.minusOne = 'filled';
-        break;
-      default:
-        console.log(`Something went wrong! ${modifier} is not a number of -1 through 3.`)
-    }
-
-    return (fillObj);
-  }
-
-  const getLuckBubbles = () => {
-    let minus3, minus2, minus1, plus1, plus2, plus3 = '';
-    switch (Number(character.luck)) {
-      case 3:
-        plus3 = 'filled';
-      case 2:
-        plus2 = 'filled';
-      case 1:
-        plus1 = 'filled';
-      case -1:
-        minus1 = 'filled';
-      case -2:
-        minus2 = 'filled';
-      case -3:
-        minus3 = 'filled';
-        break;
-      default:
-        console.log(`Something went wrong! ${character.luck} is not a number between -3 and +3, excluding 0`);
-    }
-    return (
-      <div className="bubbleContainer">
-        <div className={`bubble ${minus3}`}></div>
-        <div className={`bubble ${minus2}`}></div>
-        <div className={`bubble ${minus1}`}></div>
-        <div className={`bubble ${plus1}`}></div>
-        <div className={`bubble ${plus2}`}></div>
-        <div className={`bubble ${plus3}`}></div>
-      </div>
-    )
-  }
-
   const statCheck = (e) => {
     let stat = {};
     for (let i = 0; i < character.stats.length; i++) {
@@ -192,6 +142,46 @@ const CharacterSheet = (props) => {
     )
   }
 
+  const skillCheck = (e) => {
+    let skill = {};
+    for (let i = 0; i < character.skills.length; i++) {
+      if (character.skills[i].name == e.target.value) {
+        skill = character.skills[i];
+      }
+    }
+
+    let rolls = rollDice();
+    let modifier = skill.modifier;
+    let modifierString;
+    let name = skill.name;
+    let total = rolls.num1 + rolls.num2 + modifier;
+
+    if (modifier > -1) {
+      modifierString = `+${modifier}`;
+    }
+
+    if (total >= 8) {
+      let newCharacter = { ...character };
+      newCharacter.experienceProgress++;
+
+      if (newCharacter.experienceProgress > 4) {
+        newCharacter.experience++;
+        newCharacter.experienceProgress = 0;
+      }
+
+      setCharacter(newCharacter);
+    }
+
+    setMessage(
+      <div className='message'>
+        <p className="messageHead"><strong>{name} Check!</strong></p>
+        <p>You rolled {rolls.num1} and {rolls.num2}.</p>
+        <p>Your modifier is {modifierString || modifier}</p>
+        <p className="messageTotal"><strong>Total: {total}</strong></p>
+      </div>
+    )
+  }
+
   const luckCheck = () => {
     let rolls = rollDice();
     let modifier = Number(character.luck);
@@ -212,8 +202,22 @@ const CharacterSheet = (props) => {
     )
   }
 
+  const addHarm = () => {
+    let newCharacter = { ...character };
+    newCharacter.harm >= 10 ? newCharacter.harm = 10 : newCharacter.harm = character.harm + 1;
+
+    setCharacter(newCharacter);
+  }
+
+  const minusHarm = () => {
+    let newCharacter = { ...character };
+    newCharacter.harm <= 0 ? newCharacter.harm = 0 : newCharacter.harm = character.harm - 1;
+
+    setCharacter(newCharacter);
+  }
+
   return (
-    <div>
+    <div className='characterSheet'>
       {message}
 
       <Dice
@@ -222,9 +226,7 @@ const CharacterSheet = (props) => {
         diceStyle2={diceStyle2}
       />
 
-      <div animate={{ x: '100px' }} className="hideDiceContainer">
-        <button type="button" className={`hideDice ${diceState}`} id="resetDiceButton" onClick={resetDice}>Hide Dice</button>
-      </div>
+      <button type="button" className={`hideDice ${diceState}`} id="resetDiceButton" onClick={resetDice}>Hide Dice</button>
 
       <h1><span className="name">{character.name}</span><br /><span className="guild">{character.guild} Guild</span></h1>
       <div className="character section">
@@ -247,21 +249,20 @@ const CharacterSheet = (props) => {
           </div>
         </div>
         {character.stats.map((el, i) => {
-          let fill = fillBubbles(el.modifier);
           return (
             <div key={`stat${i}`} className='stat'>
               <div className="labelContainer">
-                <button type='button' value={el.name} onClick={statCheck} className='diceButton'>
+                <button type='button' value={el.name} className='diceButton'>
                   <input type='image' value={el.name} onClick={statCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
                 </button>
                 <p>{el.name}:</p>
               </div>
               <div className="bubbleContainer">
-                <div className={`bubble ${fill.minusOne}`}></div>
-                <div className={`bubble ${fill.zero}`}></div>
-                <div className={`bubble ${fill.one}`}></div>
-                <div className={`bubble ${fill.two}`}></div>
-                <div className={`bubble ${fill.three}`}></div>
+                <div className='bubble filled'></div>
+                <div className={el.modifier >= 0 ? 'bubble filled' : "bubble"}></div>
+                <div className={el.modifier >= 1 ? 'bubble filled' : "bubble"}></div>
+                <div className={el.modifier >= 2 ? 'bubble filled' : "bubble"}></div>
+                <div className={el.modifier >= 3 ? 'bubble filled' : "bubble"}></div>
               </div>
             </div>
           )
@@ -283,11 +284,101 @@ const CharacterSheet = (props) => {
         </div>
         <div className="stat">
           <div className='labelContainer'>
-            <button type='button' value={character.luck} onClick={luckCheck} className='diceButton'>
+            <button type='button' value={character.luck} className='diceButton'>
               <input type='image' value={character.luck} onClick={luckCheck} src='/static/icons/dice-solid.svg' alt={`roll for Luck`} className='filter' />
             </button>
           </div>
-          {getLuckBubbles()}
+          <div className="bubbleContainer">
+            <div className="bubble filled"></div>
+            <div className={character.luck >= -2 ? 'filled bubble' : 'bubble'}></div>
+            <div className={character.luck >= -1 ? 'filled bubble' : 'bubble'}></div>
+            <div className={character.luck >= 1 ? 'filled bubble' : 'bubble'}></div>
+            <div className={character.luck >= 2 ? 'filled bubble' : 'bubble'}></div>
+            <div className={character.luck >= 3 ? 'filled bubble' : 'bubble'}></div>
+          </div>
+        </div>
+      </div>
+
+      <div className="harmExpContainer">
+        <div className='section harm'>
+          <h2>Harm</h2>
+          <div className="plusMinus">
+            <button type='button'>
+              <input type='image' onClick={minusHarm} src='/static/icons/circle-minus-solid.svg' alt='subtract harm' className='filter' />
+            </button>
+            <button type='button'>
+              <input type='image' onClick={addHarm} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
+            </button>
+          </div>
+          <div>
+            <div className='bubbleContainer'>
+              <div className={character.harm >= 1 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 2 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 3 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 4 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 5 ? 'filled bubble' : 'bubble'}></div>
+            </div>
+            <div className='bubbleContainer'>
+              <div className={character.harm >= 6 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 7 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 8 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 9 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 10 ? 'filled bubble' : 'bubble'}></div>
+            </div>
+          </div>
+          <div className="dying">
+            <p>Dying</p>
+            <div className="bubble" />
+          </div>
+        </div>
+
+        <div className="section experience">
+          <h2>Experience</h2>
+          <div className="bubbleContainer">
+            <div className={character.experienceProgress >= 1 ? "filled bubble" : "bubble"} />
+            <div className={character.experienceProgress >= 2 ? "filled bubble" : "bubble"} />
+            <div className={character.experienceProgress >= 3 ? "filled bubble" : "bubble"} />
+            <div className={character.experienceProgress >= 4 ? "filled bubble" : "bubble"} />
+          </div>
+          <div className="experiencePoints">
+            <p><strong>{character.experience}</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div className="section skills">
+        <h2>Skills</h2>
+        <div className="skillsGrid">
+          {character.skills.map((el, i) => {
+            return (
+              <div key={`stat${i}`} className={`skillContainer ${el.name === 'Throwdown' ? 'throwdown' : 'skill'}`}>
+                <div className="labelContainer">
+                  <button type='button' className='diceButton'>
+                    <input type='image' value={el.name} onClick={skillCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                  </button>
+                  <p><em>{el.name}</em></p>
+                </div>
+                <div className="specialtyContainer">
+                  <div className="specialty"></div>
+                  <div className="specialty"></div>
+                </div>
+                <div className="statModifiers">
+                  <p>-1</p>
+                  <p>+0</p>
+                  <p>+1</p>
+                  <p>+2</p>
+                  <p>+3</p>
+                </div>
+                <div className="bubbleContainer">
+                  <div className='bubble filled'></div>
+                  <div className={el.modifier >= 0 ? 'bubble filled' : "bubble"}></div>
+                  <div className={el.modifier >= 1 ? 'bubble filled' : "bubble"}></div>
+                  <div className={el.modifier >= 2 ? 'bubble filled' : "bubble"}></div>
+                  <div className={el.modifier >= 3 ? 'bubble filled' : "bubble"}></div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>
