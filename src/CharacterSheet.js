@@ -17,6 +17,7 @@ const CharacterSheet = (props) => {
   let [diceStyle1, setDiceStyle1] = useState({ x: -45, y: -45 });
   let [diceStyle2, setDiceStyle2] = useState({ x: -45, y: -45 });
   let [message, setMessage] = useState(<div />);
+  let [expStore, setExpStore] = useState(<div />);
 
   let characterList = [...characters];
   let index = props.index;
@@ -182,6 +183,106 @@ const CharacterSheet = (props) => {
     )
   }
 
+  const primaryCheck = (e) => {
+    let skill = {};
+    for (let i = 0; i < character.skills.length; i++) {
+      if (character.skills[i].name == e.target.value) {
+        skill = character.skills[i];
+      }
+    }
+
+    if (!skill.spec1) {
+      setDiceState('');
+      setMessage(
+        <div className='message'>
+          <p className="messageHead"><strong>No primary specialty for {skill.name}!</strong></p>
+          <p>A primary specialty is unlocked with 5 EXP, but requires a +2 in this skill. </p>
+        </div>
+      )
+    } else {
+      let rolls = rollDice();
+      let modifier = skill.modifier + 2;
+      let modifierString;
+      let name = skill.name;
+      let total = rolls.num1 + rolls.num2 + modifier;
+
+      if (modifier > -1) {
+        modifierString = `+${modifier}`;
+      }
+
+      if (total >= 8) {
+        let newCharacter = { ...character };
+        newCharacter.experienceProgress++;
+
+        if (newCharacter.experienceProgress > 4) {
+          newCharacter.experience++;
+          newCharacter.experienceProgress = 0;
+        }
+
+        setCharacter(newCharacter);
+      }
+
+      setMessage(
+        <div className='message'>
+          <p className="messageHead"><strong>{name} Check!</strong></p>
+          <p>You rolled {rolls.num1} and {rolls.num2}.</p>
+          <p>Your modifier is {modifierString || modifier}</p>
+          <p className="messageTotal"><strong>Total: {total}</strong></p>
+        </div>
+      )
+    }
+  }
+
+  const secondaryCheck = (e) => {
+    let skill = {};
+    for (let i = 0; i < character.skills.length; i++) {
+      if (character.skills[i].name == e.target.value) {
+        skill = character.skills[i];
+      }
+    }
+
+    if (!skill.spec2) {
+      setDiceState('');
+      setMessage(
+        <div className='message'>
+          <p className="messageHead"><strong>No secondary specialty for {skill.name}!</strong></p>
+          <p>A secondary specialty is unlocked with 4 EXP, but requires that this skill have a primary specialty.</p>
+        </div>
+      )
+    } else {
+      let rolls = rollDice();
+      let modifier = skill.modifier + 1;
+      let modifierString;
+      let name = skill.name;
+      let total = rolls.num1 + rolls.num2 + modifier;
+
+      if (modifier > -1) {
+        modifierString = `+${modifier}`;
+      }
+
+      if (total >= 8) {
+        let newCharacter = { ...character };
+        newCharacter.experienceProgress++;
+
+        if (newCharacter.experienceProgress > 4) {
+          newCharacter.experience++;
+          newCharacter.experienceProgress = 0;
+        }
+
+        setCharacter(newCharacter);
+      }
+
+      setMessage(
+        <div className='message'>
+          <p className="messageHead"><strong>{name} Check!</strong></p>
+          <p>You rolled {rolls.num1} and {rolls.num2}.</p>
+          <p>Your modifier is {modifierString || modifier}</p>
+          <p className="messageTotal"><strong>Total: {total}</strong></p>
+        </div>
+      )
+    }
+  }
+
   const luckCheck = () => {
     let rolls = rollDice();
     let modifier = Number(character.luck);
@@ -216,6 +317,10 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
+  const spendExp = () => {
+
+  }
+
   return (
     <div className='characterSheet'>
       {message}
@@ -226,7 +331,7 @@ const CharacterSheet = (props) => {
         diceStyle2={diceStyle2}
       />
 
-      <button type="button" className={`hideDice ${diceState}`} id="resetDiceButton" onClick={resetDice}>Hide Dice</button>
+      <button type="button" className={`hideDice ${diceState}`} id="resetDiceButton" onClick={resetDice}>Close</button>
 
       <h1><span className="name">{character.name}</span><br /><span className="guild">{character.guild} Guild</span></h1>
       <div className="character section">
@@ -343,6 +448,7 @@ const CharacterSheet = (props) => {
           <div className="experiencePoints">
             <p><strong>{character.experience}</strong></p>
           </div>
+          <button type="button" onClick={spendExp} className="expBtn">Spend EXP</button>
         </div>
       </div>
 
@@ -358,10 +464,7 @@ const CharacterSheet = (props) => {
                   </button>
                   <p><em>{el.name}</em></p>
                 </div>
-                <div className="specialtyContainer">
-                  <div className="specialty"></div>
-                  <div className="specialty"></div>
-                </div>
+
                 <div className="statModifiers">
                   <p>-1</p>
                   <p>+0</p>
@@ -375,6 +478,21 @@ const CharacterSheet = (props) => {
                   <div className={el.modifier >= 1 ? 'bubble filled' : "bubble"}></div>
                   <div className={el.modifier >= 2 ? 'bubble filled' : "bubble"}></div>
                   <div className={el.modifier >= 3 ? 'bubble filled' : "bubble"}></div>
+                </div>
+
+                <div className="specialtyContainer">
+                  <div className="specialty">
+                    <button type='button' className='diceButton'>
+                      <input type='image' value={el.name} onClick={primaryCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                    </button>
+                    <p>{el.spec1 || 'Primary'} (+2)</p>
+                  </div>
+                  <div className="specialty">
+                    <button type='button' className='diceButton'>
+                      <input type='image' value={el.name} onClick={secondaryCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                    </button>
+                    <p>{el.spec2 || 'Secondary'} (+1)</p>
+                  </div>
                 </div>
               </div>
             )

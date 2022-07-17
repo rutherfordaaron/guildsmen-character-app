@@ -42,6 +42,7 @@ br {
   padding: 10px;
   border-radius: 4px;
   margin: 20px 0;
+  max-width: 345px;
 }
 
 .character p {
@@ -132,7 +133,9 @@ img {
 
 .harm .dying,
 .harmExpContainer,
-.skillContainer {
+.skillContainer,
+.specialty,
+.specialtyContainer {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,7 +181,7 @@ img {
   border: 1px solid var(--text-color);
   border-radius: 50%;
   width: 60px;
-  margin: 20px auto;
+  margin: 10px auto;
 }
 
 .experiencePoints p {
@@ -193,4 +196,31 @@ img {
 
 .skillContainer {
   margin: 10px 0;
+}
+
+.specialty p {
+  font-size: 10px;
+}
+
+.specialtyContainer {
+  flex-direction: column;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.specialty {
+  width: 90%;
+}
+
+.skill,
+.skills h2 {
+  border-bottom: 1px solid var(--text-color);
+  padding-bottom: 20px;
+}
+
+.expBtn {
+  margin-left: 22px !important;
+  border: 1px solid var(--text-color) !important;
+  padding: 5px 10px !important;
+  border-radius: 5px;
 }
