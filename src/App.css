@@ -95,12 +95,23 @@ h2 {
   gap: 8px;
 }
 
-.characterSheet button {
+.characterSheet .diceButton {
   border: none;
   padding: 0;
 }
 
-button:focus {
+.block {
+  display: block;
+}
+
+.characterSheet button {
+  border-radius: 5px;
+  border-color: var(--text-color);
+  padding: 10px;
+  font-size: inherit;
+}
+
+.diceButton:focus {
   outline: none;
 }
 
@@ -219,7 +230,8 @@ img {
 }
 
 .expBtn {
-  margin-left: 22px !important;
+  display: block;
+  margin: 0 auto !important;
   border: 1px solid var(--text-color) !important;
   padding: 5px 10px !important;
   border-radius: 5px;

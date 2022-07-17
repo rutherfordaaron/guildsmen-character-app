@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import './App.css';
 import Dice from './Dice';
+import ExpStore from "./ExpStore";
 
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
@@ -165,7 +166,7 @@ const CharacterSheet = (props) => {
       let newCharacter = { ...character };
       newCharacter.experienceProgress++;
 
-      if (newCharacter.experienceProgress > 4) {
+      if (newCharacter.experienceProgress >= 4) {
         newCharacter.experience++;
         newCharacter.experienceProgress = 0;
       }
@@ -317,8 +318,20 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
-  const spendExp = () => {
+  const startExpStore = () => {
+    setExpStore(
+      <ExpStore
+        closeExpStore={closeExpStore}
+        character={character}
+        setCharacter={setCharacter}
+        increaseItem={increaseItem}
+        setSpec={setSpec}
+      />
+    );
+  }
 
+  const closeExpStore = () => {
+    setExpStore(<div />);
   }
 
   return (
@@ -408,10 +421,10 @@ const CharacterSheet = (props) => {
         <div className='section harm'>
           <h2>Harm</h2>
           <div className="plusMinus">
-            <button type='button'>
+            <button type='button' className='diceButton'>
               <input type='image' onClick={minusHarm} src='/static/icons/circle-minus-solid.svg' alt='subtract harm' className='filter' />
             </button>
-            <button type='button'>
+            <button type='button' className='diceButton'>
               <input type='image' onClick={addHarm} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
             </button>
           </div>
@@ -448,7 +461,8 @@ const CharacterSheet = (props) => {
           <div className="experiencePoints">
             <p><strong>{character.experience}</strong></p>
           </div>
-          <button type="button" onClick={spendExp} className="expBtn">Spend EXP</button>
+          <button type="button" onClick={startExpStore} className="expBtn">Spend EXP</button>
+          {expStore}
         </div>
       </div>
 
