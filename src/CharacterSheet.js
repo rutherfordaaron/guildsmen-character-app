@@ -453,6 +453,37 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
+  const handleGearInput = (e) => {
+    if (e.which === 13) {
+      let newCharacter = { ...character };
+      newCharacter.gear.push(e.target.value);
+
+      e.target.value = "";
+      setCharacter(newCharacter);
+    }
+  }
+
+  const removeGearItem = (e) => {
+    let newCharacter = { ...character };
+    let index = newCharacter.gear.indexOf(e.target.value);
+    newCharacter.gear = newCharacter.gear.filter(item => item !== newCharacter.gear[index]);
+
+    setCharacter(newCharacter);
+  }
+
+  const detailsChange = (e) => {
+    let newCharacter = { ...character };
+    for (let i = 0; i < newCharacter.details.length; i++) {
+      if (newCharacter.details[i].name === e.target.name) {
+        newCharacter.details[index].content = e.target.value;
+      }
+    }
+
+    setCharacter(newCharacter);
+  }
+
+
+
   return (
     <div className='characterSheet'>
       {message}
@@ -473,7 +504,7 @@ const CharacterSheet = (props) => {
         <p><strong>Physique:</strong> {character.physique}</p>
       </div>
 
-      <div className="section">
+      <div className="section stats">
         <h2>Stats</h2>
         <div className="stat">
           <div></div>
@@ -702,6 +733,35 @@ const CharacterSheet = (props) => {
             <p>Exquisite</p>
           </div>
         </div>
+      </div>
+
+      <div className="gear section">
+        <h2>Gear</h2>
+        <input type="text" placeholder="Add gear..." onKeyDown={handleGearInput} className="gearInput" />
+        <ul className="gearGrid">
+          {character.gear.map((el, i) => {
+            return (
+              <li key={`gear${i}`} className="gearItem">
+                {el}
+                <button type="button" className="diceButton trashButton">
+                  <input type="image" onClick={removeGearItem} value={el} src="/static/icons/trash-solid.svg" alt="delete gear item" className="filter" />
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+      <div className="section details">
+        <h2>Character Details</h2>
+        <h3>Goals & Motives</h3>
+        <textarea value={character.details[0].content} className="detailsInput" name="goals" onChange={detailsChange} />
+        <h3>Personal Morals</h3>
+        <textarea value={character.details[1].content} className="detailsInput" name="morals" onChange={detailsChange} />
+        <h3>Flaws & Weaknesses</h3>
+        <textarea value={character.details[2].content} className="detailsInput" name="weaknesses" onChange={detailsChange} />
+        <h3>Important Connections</h3>
+        <textarea value={character.details[3].content} className="detailsInput" name="connections" onChange={detailsChange} />
       </div>
 
       <div className={`dead ${character.dead ? "" : "hidden"}`}>

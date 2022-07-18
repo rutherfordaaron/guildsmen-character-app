@@ -1,6 +1,7 @@
 .createCharacter {
-  margin: 0 auto;
+  margin: 0 auto !important;
   margin-bottom: 40px !important;
+  width: 280px !important;
 }
 
 .link {
@@ -8,13 +9,12 @@
   font-size: 20px;
   padding: 10px;
   border-radius: 5px;
-  width: 280px;
+  width: 250px;
   margin: 10px 0;
   text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
   margin-bottom: 10px;
 }
 
@@ -95,7 +95,7 @@ h2 {
   gap: 8px;
 }
 
-.characterSheet .diceButton {
+.diceButton {
   border: none;
   padding: 0;
 }
@@ -368,4 +368,93 @@ img {
 .wealth {
   width: 160px;
   margin: 0 auto;
+}
+
+.gear .gearAdd input {
+  width: 18px;
+  height: auto;
+}
+
+.gear .gearAdd {
+  margin-left: 10px;
+  display: inline;
+}
+
+.gear .trashButton {
+  margin-left: 10px;
+}
+
+.gearItem {
+  margin: 10px 0;
+}
+
+.gearInput {
+  margin: 0 auto;
+  background-color: inherit;
+  color: inherit;
+  border: 1px solid var(--text-color);
+  padding: 5px;
+  display: block;
+}
+
+.detailsInput {
+  background-color: inherit;
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--text-color);
+  padding: 5px;
+  display: block;
+  margin: 10px auto;
+  width: 280px;
+  height: 180px;
+}
+
+.app .trashButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.confirm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--transparent-background-color);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.confirm p {
+  font-size: 42px;
+}
+
+.confirm button {
+  margin: 0 10px;
+  font-size: 32px;
+  border-radius: 10px;
+  width: 100px;
+  padding: 10px;
+}
+
+.characterBtnContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.characterBtnContainer button input {
+  width: 20px;
+  height: auto;
+}
+
+@media (min-width: 992px) {
+  .gear {
+    height: 1101px;
+  }
 }
