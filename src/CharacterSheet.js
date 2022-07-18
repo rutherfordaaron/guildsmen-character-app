@@ -6,6 +6,7 @@ import ExpStore from "./ExpStore";
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
   let initialCharacter;
+  const addArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
   for (let i = 0; i < characters.length; i++) {
     if (characters[i].name === props.character.name) {
@@ -19,6 +20,7 @@ const CharacterSheet = (props) => {
   let [diceStyle2, setDiceStyle2] = useState({ x: -45, y: -45 });
   let [message, setMessage] = useState(<div />);
   let [expStore, setExpStore] = useState(<div />);
+  let [warning, setWarning] = useState("I is warning!")
 
   let characterList = [...characters];
   let index = props.index;
@@ -92,13 +94,16 @@ const CharacterSheet = (props) => {
     return (rotations);
   }
 
-
   const rollDice = () => {
     const num1 = Math.floor(Math.random() * 6 + 1);
     const num2 = Math.floor(Math.random() * 6 + 1);
     const rolls = { num1: num1, num2: num2 };
 
     let rotations = findXYRotation(num1, num2);
+
+    if (character.addiction) {
+      increaseNeed();
+    }
 
     if (diceState === 'hidden') {
       setDiceState('');
@@ -120,7 +125,7 @@ const CharacterSheet = (props) => {
   const statCheck = (e) => {
     let stat = {};
     for (let i = 0; i < character.stats.length; i++) {
-      if (character.stats[i].name == e.target.value) {
+      if (character.stats[i].name === e) {
         stat = character.stats[i];
       }
     }
@@ -142,12 +147,14 @@ const CharacterSheet = (props) => {
         <p className="messageTotal"><strong>Total: {rolls.num1 + rolls.num2 + modifier}</strong></p>
       </div>
     )
+
+    return (rolls.num1 + rolls.num2 + modifier)
   }
 
   const skillCheck = (e) => {
     let skill = {};
     for (let i = 0; i < character.skills.length; i++) {
-      if (character.skills[i].name == e.target.value) {
+      if (character.skills[i].name === e) {
         skill = character.skills[i];
       }
     }
@@ -182,6 +189,8 @@ const CharacterSheet = (props) => {
         <p className="messageTotal"><strong>Total: {total}</strong></p>
       </div>
     )
+
+    return (rolls.num1 + rolls.num2 + modifier)
   }
 
   const primaryCheck = (e) => {
@@ -307,6 +316,10 @@ const CharacterSheet = (props) => {
   const addHarm = () => {
     let newCharacter = { ...character };
     newCharacter.harm >= 10 ? newCharacter.harm = 10 : newCharacter.harm = character.harm + 1;
+    if (newCharacter.harm >= 10) {
+      newCharacter.deathMsg = "You died...";
+      newCharacter.dead = true;
+    }
 
     setCharacter(newCharacter);
   }
@@ -324,14 +337,103 @@ const CharacterSheet = (props) => {
         closeExpStore={closeExpStore}
         character={character}
         setCharacter={setCharacter}
-        increaseItem={increaseItem}
-        setSpec={setSpec}
       />
     );
   }
 
   const closeExpStore = () => {
     setExpStore(<div />);
+  }
+
+  const addMyth = () => {
+    let newCharacter = { ...character };
+    if (!newCharacter.everAddicted) {
+      newCharacter.addiction = 1;
+      newCharacter.addictionProgress = 3;
+      newCharacter.everAddicted = true;
+    }
+
+    if (newCharacter.mythUses >= 6) {
+      newCharacter.harm = 10;
+      newCharacter.dying = true;
+      newCharacter.dead = true;
+      newCharacter.deathMsg = "You died from an overdose of Myth..";
+    } else {
+      newCharacter.mythUses++;
+      newCharacter.need = 0;
+      newCharacter.addictionProgress++;
+      newCharacter.addiction = Math.floor(newCharacter.addictionProgress / 3);
+    }
+    setCharacter(newCharacter);
+  }
+
+  const minusMyth = () => {
+    let newCharacter = { ...character };
+    if (newCharacter.mythUses > 0) {
+      newCharacter.mythUses--;
+    }
+    setCharacter(newCharacter);
+  }
+
+  const toggleDying = () => {
+    let newCharacter = { ...character };
+    newCharacter.dying = !newCharacter.dying;
+    setCharacter(newCharacter);
+  }
+
+  const resurrect = () => {
+    let newCharacter = { ...character };
+    newCharacter.dead = false;
+    newCharacter.harm = 0;
+    newCharacter.dying = false;
+    newCharacter.mythUses = 0;
+    newCharacter.need = 0;
+    setCharacter(newCharacter);
+  }
+
+  const increaseNeed = () => {
+    let newCharacter = { ...character };
+    let constitution;
+
+    for (let i = 0; i < newCharacter.stats.length; i++) {
+      if (newCharacter.stats[i].name === "Constitution") {
+        constitution = newCharacter.stats[i]
+      }
+    }
+
+    if (newCharacter.need !== (newCharacter.addiction - 8) * -1 + 1) {
+      newCharacter.need++;
+    } else {
+      setWarning("Taking damage from Myth addiction need..");
+      document.getElementById("warning").classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("warning").classList.add("hidden");
+      }, 2000)
+
+      const num1 = Math.floor(Math.random() * 6 + 1);
+      const num2 = Math.floor(Math.random() * 6 + 1);
+      console.log(`${num1} + ${num2} + ${constitution.modifier}`);
+
+      if (num1 + num2 + constitution.modifier >= 10) {
+        newCharacter.harm += Math.round(newCharacter.addiction / 2);
+        console.log(Math.round(newCharacter.addiction / 2))
+        newCharacter.need = 0;
+      } else {
+        newCharacter.harm += newCharacter.addiction;
+        console.log(newCharacter.addiction)
+        newCharacter.need = 0;
+      }
+
+      newCharacter.addictionProgress--;
+      newCharacter.addiction = Math.floor(newCharacter.addictionProgress / 3);
+    }
+
+    if (newCharacter.harm >= 10) {
+      newCharacter.dead = true;
+      newCharacter.deathMsg = "You died from a Myth withdrawl.."
+    }
+
+    setCharacter(newCharacter);
   }
 
   return (
@@ -371,7 +473,7 @@ const CharacterSheet = (props) => {
             <div key={`stat${i}`} className='stat'>
               <div className="labelContainer">
                 <button type='button' value={el.name} className='diceButton'>
-                  <input type='image' value={el.name} onClick={statCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                  <input type='image' value={el.name} onClick={() => { statCheck(el.name) }} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
                 </button>
                 <p>{el.name}:</p>
               </div>
@@ -430,23 +532,23 @@ const CharacterSheet = (props) => {
           </div>
           <div>
             <div className='bubbleContainer'>
-              <div className={character.harm >= 1 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 2 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 3 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 4 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 5 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 1 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 2 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 3 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 4 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 5 ? 'redFill bubble' : 'bubble'}></div>
             </div>
             <div className='bubbleContainer'>
-              <div className={character.harm >= 6 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 7 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 8 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 9 ? 'filled bubble' : 'bubble'}></div>
-              <div className={character.harm >= 10 ? 'filled bubble' : 'bubble'}></div>
+              <div className={character.harm >= 6 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 7 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 8 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 9 ? 'redFill bubble' : 'bubble'}></div>
+              <div className={character.harm >= 10 ? 'redFill bubble' : 'bubble'}></div>
             </div>
           </div>
           <div className="dying">
-            <p>Dying</p>
-            <div className="bubble" />
+            <p onClick={toggleDying}>Dying</p>
+            <div className={`bubble ${character.dying ? "redFill" : ""}`} onClick={toggleDying} />
           </div>
         </div>
 
@@ -474,7 +576,7 @@ const CharacterSheet = (props) => {
               <div key={`stat${i}`} className={`skillContainer ${el.name === 'Throwdown' ? 'throwdown' : 'skill'}`}>
                 <div className="labelContainer">
                   <button type='button' className='diceButton'>
-                    <input type='image' value={el.name} onClick={skillCheck} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
+                    <input type='image' value={el.name} onClick={() => { skillCheck(el.name) }} src='/static/icons/dice-solid.svg' alt={`roll for ${el.name}`} className='filter' />
                   </button>
                   <p><em>{el.name}</em></p>
                 </div>
@@ -512,6 +614,60 @@ const CharacterSheet = (props) => {
             )
           })}
         </div>
+      </div>
+
+      <div className="section addiction">
+        <h2>Myth Addiction</h2>
+        <p>Level</p>
+        <div className="addLevel">
+          <p>0</p>
+          {addArr.map((el, i) => {
+            if (el % 3 === 0) {
+              return (
+                <p key={`addLevel${el / 3}`} className={character.addiction >= el / 3 ? "levelBold" : ""}>{el / 3}</p>
+              )
+            }
+          })}
+        </div>
+        <div className="addMeter">
+          {addArr.map((el, i) => {
+            return (
+              <div className={`addMeterSection ${el % 3 === 0 ? "boldRight" : ""} ${el <= character.addictionProgress ? "filled" : ""}`} key={`addiction${i}`} />
+            )
+          })}
+        </div>
+        <p>Need</p>
+        <div className="needContainer">
+          {addArr.map((el, i) => {
+            let val = el / 3;
+            if (el % 3 === 0) {
+              return (
+                <div key={`need${val}`} className={`${character.need >= val ? "need redFill" : "need"} ${(val - 8) * -1 + 2 <= character.addiction ? "hidden" : ""}`} />
+              )
+            }
+          })}
+        </div>
+        <p>Myth Uses</p>
+        <div className="plusMinus">
+          <button type='button' className='diceButton'>
+            <input type='image' onClick={minusMyth} src='/static/icons/circle-minus-solid.svg' alt='subtract harm' className='filter' />
+          </button>
+          <button type='button' className='diceButton'>
+            <input type='image' onClick={addMyth} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
+          </button>
+        </div>
+        <p>{character.mythUses}</p>
+      </div>
+
+      <div className={`dead ${character.dead ? "" : "hidden"}`}>
+        <img className="filter deathImg" src="/static/icons/skull-solid.svg" alt="" />
+        <p className="deathMessage">{character.deathMsg}</p>
+        <button onClick={resurrect} type="button" className="resurrect">Resurrect</button>
+        <back-component></back-component>
+      </div>
+
+      <div className="warning fadeOut hidden" id="warning">
+        <p>{warning}</p>
       </div>
     </div>
   )

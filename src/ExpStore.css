@@ -89,7 +89,7 @@ p {
 
 .fadeOut {
   animation-name: fadeOut;
-  animation-duration: 1.5s;
+  animation-duration: 2s;
   animation-fill-mode: forwards;
   animation-timing-function: cubic-bezier(0.8, 0.1, 1.0, 1.0);
   ;
