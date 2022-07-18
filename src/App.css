@@ -41,8 +41,8 @@ br {
   border: 1px solid var(--text-color);
   padding: 10px;
   border-radius: 4px;
-  margin: 20px 0;
-  max-width: 345px;
+  margin: 20px auto;
+  max-width: 325px;
 }
 
 .character p {
@@ -330,5 +330,42 @@ img {
   color: white;
   padding: 10px 20px;
   width: 250px;
+  margin: 0 auto;
+}
+
+.wealthGrid {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 10px;
+  width: 200px;
+  margin: 0 auto;
+}
+
+.wealthGrid div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.wealthGrid div p {
+  margin: 0;
+  text-align: left;
+  width: 100%;
+}
+
+.wealthGrid .bubbleCol {
+  align-items: flex-end;
+}
+
+.wealthGrid .adjCol {
+  align-items: flex-start;
+}
+
+.wealth h2 {
+  margin: 0;
+}
+
+.wealth {
+  width: 160px;
   margin: 0 auto;
 }
