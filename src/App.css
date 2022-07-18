@@ -107,7 +107,6 @@ h2 {
 .characterSheet button {
   border-radius: 5px;
   border-color: var(--text-color);
-  padding: 10px;
   font-size: inherit;
 }
 
@@ -320,7 +319,8 @@ img {
 .warning {
   position: fixed;
   bottom: 50px;
-  width: calc(100vw - 30px);
+  left: 0;
+  width: 100vw;
   z-index: 40;
 }
 
@@ -453,8 +453,95 @@ img {
   height: auto;
 }
 
-@media (min-width: 992px) {
+@media (min-width:992px) {
+  .charactersMain {
+    max-width: calc(992px - 60px);
+  }
+
+  .characterSheet {
+    display: grid;
+    grid-template-areas:
+      "title title title"
+      "myth info stats"
+      "myth luck harmExp"
+      "gear skills skills"
+      "details details details"
+
+    ;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    position: relative;
+  }
+
   .gear {
-    height: 1101px;
+    grid-area: gear;
+    width: 90%;
+  }
+
+  .skills {
+    grid-area: skills;
+    width: initial;
+    max-width: none;
+  }
+
+  .skillsGrid {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .character {
+    grid-area: info;
+    height: 160px;
+    position: relative;
+    width: 250px;
+  }
+
+  .stats {
+    grid-area: stats;
+    height: 250px;
+  }
+
+  .luck {
+    grid-area: luck;
+    height: 100px;
+    position: relative;
+    top: 80px;
+    right: 300px;
+  }
+
+  .harmExpContainer {
+    grid-area: harmExp;
+    gap: 10px;
+  }
+
+  h1 {
+    grid-area: title;
+  }
+
+  .addiction {
+    grid-area: myth;
+    height: 325px;
+  }
+
+  .details {
+    grid-area: details;
+    max-width: none;
+  }
+
+  .detailsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .wealth {
+    grid-area: luck;
+    height: 240px;
+    position: relative;
+    bottom: 60px;
+  }
+
+  .throwdown {
+    border-bottom: 1px solid var(--text-color);
+    padding-bottom: 20px;
   }
 }
