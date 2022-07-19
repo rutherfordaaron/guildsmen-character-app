@@ -13,7 +13,7 @@ root.render(
     <HashRouter>
       <Routes>
         <Route path='/' element={<App />} />
-        {characters.map((el, i) => {
+        {characters?.map((el, i) => {
           let route = el.name.split('');
           for (let i = 0; i < route.length; i++) {
             if (route[i] === ' ') {

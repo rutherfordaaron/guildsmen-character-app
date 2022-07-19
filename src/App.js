@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import './App.css';
+import './components/css/App.css';
 
 
 const App = () => {
@@ -30,11 +30,11 @@ const App = () => {
   return (
     <div className="app">
       <h1>Your Characters</h1>
-      <a className="link createCharacter" href='https://guildsmen-ttrpg/resources/character-creator.html'>
+      <a className="link createCharacter" href='https://guildsmen-ttrpg.com/resources/character-creator.html'>
         Create a New Charcter
         <img className="filter" alt='' src='/static/icons/arrow-right-solid.svg' />
       </a>
-      {characters.map((el, i) => {
+      {characters?.map((el, i) => {
         return (
           <div className="characterBtnContainer">
             <Link

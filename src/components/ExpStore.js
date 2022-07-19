@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import './ExpStore.css';
+import './css/ExpStore.css';
 
 const ExpStore = (props) => {
   let [character, setCharacter] = useState({ ...props.character });

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import './App.css';
+import './css/App.css';
 import Dice from './Dice';
 import ExpStore from "./ExpStore";
 
@@ -454,13 +454,22 @@ const CharacterSheet = (props) => {
   }
 
   const handleGearInput = (e) => {
-    if (e.which === 13) {
+    console.log('gear input');
+    if (e.which === 13 || e.target.id === 'gearButtn') {
       let newCharacter = { ...character };
       newCharacter.gear.push(e.target.value);
 
       e.target.value = "";
       setCharacter(newCharacter);
     }
+  }
+
+  const handleGearBtn = () => {
+    let newCharacter = { ...character };
+    newCharacter.gear.push(document.getElementById('gearInput').value);
+    document.getElementById('gearInput').value = "";
+    setCharacter(newCharacter);
+
   }
 
   const removeGearItem = (e) => {
@@ -737,7 +746,12 @@ const CharacterSheet = (props) => {
 
       <div className="gear section">
         <h2>Gear</h2>
-        <input type="text" placeholder="Add gear..." onKeyDown={handleGearInput} className="gearInput" />
+        <div className="gearInputContainer">
+          <input type="text" placeholder="Add gear..." onKeyDown={handleGearInput} className="gearInput" id='gearInput' />
+          <button type='button' className='diceButton gearButton' id="gearButton">
+            <input type='image' onClick={handleGearBtn} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
+          </button>
+        </div>
         <ul className="gearGrid">
           {character.gear.map((el, i) => {
             return (
