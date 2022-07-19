@@ -14,32 +14,49 @@ import Gear from "./characterSheet/Gear";
 import Details from "./characterSheet/Details";
 
 const CharacterSheet = (props) => {
+  // Get character array from local storage, parse it, and store it in a variable.
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
-  let initialCharacter;
 
+  // Find the character to display from the character list by comparing names with character object passed in via props.
+  let initialCharacter;
   for (let i = 0; i < characters.length; i++) {
     if (characters[i].name === props.character.name) {
       initialCharacter = characters[i]
     }
   }
 
+  // Create state variables
+  // Use character object for data reference and updates
   let [character, setCharacter] = useState(initialCharacter);
+  // Determine if dice are shown or not
   let [diceState, setDiceState] = useState('hidden');
+  // Initial rotation of dice
   let [diceStyle1, setDiceStyle1] = useState({ x: -45, y: -45 });
   let [diceStyle2, setDiceStyle2] = useState({ x: -45, y: -45 });
+  // Setup for message display when you roll dice
   let [message, setMessage] = useState(<div />);
+  // Setup for mounting and unmounting the ExpStore component
   let [expStore, setExpStore] = useState(<div />);
-  let [warning, setWarning] = useState("I is warning!")
+  // Setup for warning message
+  let [warning, setWarning] = useState("I is warning!");
 
-  let characterList = [...characters];
+  // Store index for easy reference when updating the array of all characters.
   let index = props.index;
+  // Store initial dice rotation for easy reset of dice animation
   let initialRotation = { x: -45, y: -45 }
 
+  // Every time state updates, replace initial character position with new character from the state and add it to local storage
   useEffect(() => {
-    characterList[index] = character;
-    localStorage.setItem('guildsmenCharacters', JSON.stringify(characterList));
+    characters[index] = character;
+    localStorage.setItem('guildsmenCharacters', JSON.stringify(characters));
   });
 
+  /**
+   * Finds XY rotation when the dice is rolled to get the correct number to show to the user. Will animate the dice according to the set rotations.
+   * @param {random number 1 - 6, determined in diceRoll()} num1 
+   * @param {random number 1 - 6, determined in diceRoll()} num2 
+   * @returns rotations of the dice to show the numbers gernerated
+   */
   const findXYRotation = (num1, num2) => {
     let rotations = { x1: 0, y1: 0, x2: 0, y2: 0 }
 
@@ -103,6 +120,15 @@ const CharacterSheet = (props) => {
     return (rotations);
   }
 
+  /**
+   * Generates two random numbers of 1 - 6
+   * Finds the rotation needed to show numbers generated via findXYRotation()
+   * Calls increaseNeed() to increase players need if their addiction is true (> 0)
+   * Shows dice if their currently hidden via setDiceState()
+   * * Effectively removes the "hidden" class from the dice component
+   * Sets the dice rotations returned from findXYRotations() to the dice via setDiceStyle1()/setDiceStyle2()
+   * @returns the numbers rolled for use in other functions
+   */
   const rollDice = () => {
     const num1 = Math.floor(Math.random() * 6 + 1);
     const num2 = Math.floor(Math.random() * 6 + 1);
@@ -124,6 +150,9 @@ const CharacterSheet = (props) => {
     return (rolls)
   }
 
+  /**
+   * Resets the dice to their initial state and resets the dice result message to an empty <div>
+   */
   const resetDice = () => {
     setDiceState('hidden');
     setDiceStyle1(initialRotation);
@@ -131,6 +160,11 @@ const CharacterSheet = (props) => {
     setMessage(<div />);
   }
 
+  /**
+   * If player wants their character back after they have died, this function can be called.
+   * Sets character harm, mythUses, and need to 0
+   * Sets character dead and dying to false
+   */
   const resurrect = () => {
     let newCharacter = { ...character };
     newCharacter.dead = false;
@@ -141,6 +175,19 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
+  /**
+   * Stores constitution stat in it's own variable for easy use
+   * Checks to ensure that need is not maxed out
+   * * if it is, it increments need
+   * * otherwise, It shows a warning message that fades out via CSS animation by removing the hidden class then adding it back on after the aniation plays out
+   * * Then it rolls a constitution check via adding two random number (1-6) and the constiution modifier value
+   * * * If the value is 10 or higher, it increase Harm by half the value of the character's addiction level
+   * * * Else, Harm is increased by the character's addiction level
+   * After all that, addiction progress in decremented
+   * Character addiction is lowered if addiction progress falls under the level's threshold 
+   * Check to see if Harm is >= 10
+   * * If so, Character dies (causing death message to display) and a death message is set to inform the player
+   */
   const increaseNeed = () => {
     let newCharacter = { ...character };
     let constitution;
@@ -239,6 +286,7 @@ const CharacterSheet = (props) => {
 
       <Details character={character} setCharacter={setCharacter} />
 
+      {/* If character is dead, display death message, with buttons for going back to character list and resurrecting the character */}
       <div className={`dead ${character.dead ? "" : "hidden"}`}>
         <img className="filter deathImg" src="/static/icons/skull-solid.svg" alt="" />
         <p className="deathMessage">{character.deathMsg}</p>
@@ -246,6 +294,7 @@ const CharacterSheet = (props) => {
         <back-component></back-component>
       </div>
 
+      {/* Pop-up warning message that fades out when not hidden */}
       <div className="warning fadeOut hidden" id="warning">
         <p>{warning}</p>
       </div>
