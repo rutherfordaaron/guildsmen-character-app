@@ -10,6 +10,7 @@ import Experience from "./characterSheet/Experience";
 import Skills from "./characterSheet/Skills";
 import Addiction from "./characterSheet/Addiction";
 import Wealth from "./characterSheet/Wealth";
+import Gear from "./characterSheet/Gear";
 
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
@@ -184,33 +185,6 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
-  const handleGearInput = (e) => {
-    console.log('gear input');
-    if (e.which === 13 || e.target.id === 'gearButtn') {
-      let newCharacter = { ...character };
-      newCharacter.gear.push(e.target.value);
-
-      e.target.value = "";
-      setCharacter(newCharacter);
-    }
-  }
-
-  const handleGearBtn = () => {
-    let newCharacter = { ...character };
-    newCharacter.gear.push(document.getElementById('gearInput').value);
-    document.getElementById('gearInput').value = "";
-    setCharacter(newCharacter);
-
-  }
-
-  const removeGearItem = (e) => {
-    let newCharacter = { ...character };
-    let index = newCharacter.gear.indexOf(e.target.value);
-    newCharacter.gear = newCharacter.gear.filter(item => item !== newCharacter.gear[index]);
-
-    setCharacter(newCharacter);
-  }
-
   const detailsChange = (e) => {
     let newCharacter = { ...character };
     for (let i = 0; i < newCharacter.details.length; i++) {
@@ -273,27 +247,7 @@ const CharacterSheet = (props) => {
 
       <Wealth character={character} setCharacter={setCharacter} />
 
-      <div className="gear section">
-        <h2>Gear</h2>
-        <div className="gearInputContainer">
-          <input type="text" placeholder="Add gear..." onKeyDown={handleGearInput} className="gearInput" id='gearInput' />
-          <button type='button' className='diceButton gearButton' id="gearButton">
-            <input type='image' onClick={handleGearBtn} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
-          </button>
-        </div>
-        <ul className="gearGrid">
-          {character.gear.map((el, i) => {
-            return (
-              <li key={`gear${i}`} className="gearItem">
-                {el}
-                <button type="button" className="diceButton trashButton">
-                  <input type="image" onClick={removeGearItem} value={el} src="/static/icons/trash-solid.svg" alt="delete gear item" className="filter" />
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+      <Gear character={character} setCharacter={setCharacter} />
 
       <div className="section details">
         <h2>Character Details</h2>
