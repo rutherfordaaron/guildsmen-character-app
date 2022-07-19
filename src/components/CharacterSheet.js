@@ -6,8 +6,7 @@ import Character from "./characterSheet/Character";
 import Stats from "./characterSheet/Stats";
 import Luck from "./characterSheet/Luck";
 import Harm from "./characterSheet/Harm";
-// ExpStore components
-import ExpStore from "./ExpStore";
+import Experience from "./characterSheet/Experience";
 
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
@@ -271,20 +270,6 @@ const CharacterSheet = (props) => {
     }
   }
 
-  const startExpStore = () => {
-    setExpStore(
-      <ExpStore
-        closeExpStore={closeExpStore}
-        character={character}
-        setCharacter={setCharacter}
-      />
-    );
-  }
-
-  const closeExpStore = () => {
-    setExpStore(<div />);
-  }
-
   const addMyth = () => {
     let newCharacter = { ...character };
     if (!newCharacter.everAddicted) {
@@ -437,29 +422,14 @@ const CharacterSheet = (props) => {
       />
 
       <h1><span className="name">{character.name}</span><br /><span className="guild">{character.guild} Guild</span></h1>
+
       <Character character={character} />
-
       <Stats character={character} rollDice={rollDice} setMessage={setMessage} />
-
       <Luck rollDice={rollDice} character={character} setMessage={setMessage} />
 
       <div className="harmExpContainer">
         <Harm character={character} setCharacter={setCharacter} />
-
-        <div className="section experience">
-          <h2>Experience</h2>
-          <div className="bubbleContainer">
-            <div className={character.experienceProgress >= 1 ? "filled bubble" : "bubble"} />
-            <div className={character.experienceProgress >= 2 ? "filled bubble" : "bubble"} />
-            <div className={character.experienceProgress >= 3 ? "filled bubble" : "bubble"} />
-            <div className={character.experienceProgress >= 4 ? "filled bubble" : "bubble"} />
-          </div>
-          <div className="experiencePoints">
-            <p><strong>{character.experience}</strong></p>
-          </div>
-          <button type="button" onClick={startExpStore} className="expBtn">Spend EXP</button>
-          {expStore}
-        </div>
+        <Experience character={character} setCharacter={setCharacter} expStore={expStore} setExpStore={setExpStore} />
       </div>
 
       <div className="section skills">

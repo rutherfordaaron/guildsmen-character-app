@@ -10,7 +10,7 @@ const ExpStore = (props) => {
 
   useEffect(() => {
     props.setCharacter(character);
-  })
+  });
 
   const startClick = (e) => {
     setDisplay(e.target.value)
