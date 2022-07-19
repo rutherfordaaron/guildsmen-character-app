@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import './css/App.css';
+// ChSheet components
 import Dice from './Dice';
+import Character from "./characterSheet/Character";
+// ExpStore components
 import ExpStore from "./ExpStore";
 
 const CharacterSheet = (props) => {
@@ -504,12 +507,7 @@ const CharacterSheet = (props) => {
       />
 
       <h1><span className="name">{character.name}</span><br /><span className="guild">{character.guild} Guild</span></h1>
-      <div className="character section">
-        <h2>Character</h2>
-        <p><strong>Race:</strong> {character.race}</p>
-        <p><strong>Demeanor:</strong> {character.demeanor}</p>
-        <p><strong>Physique:</strong> {character.physique}</p>
-      </div>
+      <Character character={character} />
 
       <div className="section stats">
         <h2>Stats</h2>
