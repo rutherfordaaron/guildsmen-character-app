@@ -13,6 +13,8 @@ const Dice = (props) => {
 
   return (
     <div>
+      {props.message}
+
       <div className={`diceContainer ${props.diceState}`}>
         <motion.div
           animate={animate1}
@@ -138,6 +140,9 @@ const Dice = (props) => {
           </div>
         </motion.div>
       </div>
+      <button type="button" className={`hideDice ${props.diceState}`} id="resetDiceButton" onClick={props.resetDice}>
+        Close
+      </button>
     </div >
   )
 }

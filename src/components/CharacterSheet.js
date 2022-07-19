@@ -495,15 +495,13 @@ const CharacterSheet = (props) => {
 
   return (
     <div className='characterSheet'>
-      {message}
-
       <Dice
         diceState={diceState}
         diceStyle1={diceStyle1}
         diceStyle2={diceStyle2}
+        message={message}
+        resetDice={resetDice}
       />
-
-      <button type="button" className={`hideDice ${diceState}`} id="resetDiceButton" onClick={resetDice}>Close</button>
 
       <h1><span className="name">{character.name}</span><br /><span className="guild">{character.guild} Guild</span></h1>
       <div className="character section">
