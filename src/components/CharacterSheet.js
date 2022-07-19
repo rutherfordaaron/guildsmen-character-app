@@ -11,6 +11,7 @@ import Skills from "./characterSheet/Skills";
 import Addiction from "./characterSheet/Addiction";
 import Wealth from "./characterSheet/Wealth";
 import Gear from "./characterSheet/Gear";
+import Details from "./characterSheet/Details";
 
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
@@ -185,19 +186,6 @@ const CharacterSheet = (props) => {
     setCharacter(newCharacter);
   }
 
-  const detailsChange = (e) => {
-    let newCharacter = { ...character };
-    for (let i = 0; i < newCharacter.details.length; i++) {
-      if (newCharacter.details[i].name === e.target.name) {
-        newCharacter.details[index].content = e.target.value;
-      }
-    }
-
-    setCharacter(newCharacter);
-  }
-
-
-
   return (
     <div className='characterSheet'>
       <Dice
@@ -249,27 +237,7 @@ const CharacterSheet = (props) => {
 
       <Gear character={character} setCharacter={setCharacter} />
 
-      <div className="section details">
-        <h2>Character Details</h2>
-        <div className="detailsGrid">
-          <div>
-            <h3>Goals & Motives</h3>
-            <textarea value={character.details[0].content} className="detailsInput" name="goals" onChange={detailsChange} />
-          </div>
-          <div>
-            <h3>Personal Morals</h3>
-            <textarea value={character.details[1].content} className="detailsInput" name="morals" onChange={detailsChange} />
-          </div>
-          <div>
-            <h3>Flaws & Weaknesses</h3>
-            <textarea value={character.details[2].content} className="detailsInput" name="weaknesses" onChange={detailsChange} />
-          </div>
-          <div>
-            <h3>Important Connections</h3>
-            <textarea value={character.details[3].content} className="detailsInput" name="connections" onChange={detailsChange} />
-          </div>
-        </div>
-      </div>
+      <Details character={character} setCharacter={setCharacter} />
 
       <div className={`dead ${character.dead ? "" : "hidden"}`}>
         <img className="filter deathImg" src="/static/icons/skull-solid.svg" alt="" />
