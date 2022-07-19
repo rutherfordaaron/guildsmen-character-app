@@ -5,6 +5,7 @@ import Dice from './Dice';
 import Character from "./characterSheet/Character";
 import Stats from "./characterSheet/Stats";
 import Luck from "./characterSheet/Luck";
+import Harm from "./characterSheet/Harm";
 // ExpStore components
 import ExpStore from "./ExpStore";
 
@@ -270,24 +271,6 @@ const CharacterSheet = (props) => {
     }
   }
 
-  const addHarm = () => {
-    let newCharacter = { ...character };
-    newCharacter.harm >= 10 ? newCharacter.harm = 10 : newCharacter.harm = character.harm + 1;
-    if (newCharacter.harm >= 10) {
-      newCharacter.deathMsg = "You died...";
-      newCharacter.dead = true;
-    }
-
-    setCharacter(newCharacter);
-  }
-
-  const minusHarm = () => {
-    let newCharacter = { ...character };
-    newCharacter.harm <= 0 ? newCharacter.harm = 0 : newCharacter.harm = character.harm - 1;
-
-    setCharacter(newCharacter);
-  }
-
   const startExpStore = () => {
     setExpStore(
       <ExpStore
@@ -329,12 +312,6 @@ const CharacterSheet = (props) => {
     if (newCharacter.mythUses > 0) {
       newCharacter.mythUses--;
     }
-    setCharacter(newCharacter);
-  }
-
-  const toggleDying = () => {
-    let newCharacter = { ...character };
-    newCharacter.dying = !newCharacter.dying;
     setCharacter(newCharacter);
   }
 
@@ -467,37 +444,7 @@ const CharacterSheet = (props) => {
       <Luck rollDice={rollDice} character={character} setMessage={setMessage} />
 
       <div className="harmExpContainer">
-        <div className='section harm'>
-          <h2>Harm</h2>
-          <div className="plusMinus">
-            <button type='button' className='diceButton'>
-              <input type='image' onClick={minusHarm} src='/static/icons/circle-minus-solid.svg' alt='subtract harm' className='filter' />
-            </button>
-            <button type='button' className='diceButton'>
-              <input type='image' onClick={addHarm} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
-            </button>
-          </div>
-          <div>
-            <div className='bubbleContainer'>
-              <div className={character.harm >= 1 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 2 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 3 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 4 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 5 ? 'redFill bubble' : 'bubble'}></div>
-            </div>
-            <div className='bubbleContainer'>
-              <div className={character.harm >= 6 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 7 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 8 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 9 ? 'redFill bubble' : 'bubble'}></div>
-              <div className={character.harm >= 10 ? 'redFill bubble' : 'bubble'}></div>
-            </div>
-          </div>
-          <div className="dying">
-            <p onClick={toggleDying}>Dying</p>
-            <div className={`bubble ${character.dying ? "redFill" : ""}`} onClick={toggleDying} />
-          </div>
-        </div>
+        <Harm character={character} setCharacter={setCharacter} />
 
         <div className="section experience">
           <h2>Experience</h2>
