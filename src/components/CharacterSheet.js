@@ -8,11 +8,11 @@ import Luck from "./characterSheet/Luck";
 import Harm from "./characterSheet/Harm";
 import Experience from "./characterSheet/Experience";
 import Skills from "./characterSheet/Skills";
+import Addiction from "./characterSheet/Addiction";
 
 const CharacterSheet = (props) => {
   let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
   let initialCharacter;
-  const addArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
   const weaArr = [1, 2, 3, 4, 5];
 
   for (let i = 0; i < characters.length; i++) {
@@ -127,38 +127,6 @@ const CharacterSheet = (props) => {
     setDiceStyle1(initialRotation);
     setDiceStyle2(initialRotation);
     setMessage(<div />);
-  }
-
-
-
-  const addMyth = () => {
-    let newCharacter = { ...character };
-    if (!newCharacter.everAddicted) {
-      newCharacter.addiction = 1;
-      newCharacter.addictionProgress = 3;
-      newCharacter.everAddicted = true;
-    }
-
-    if (newCharacter.mythUses >= 6) {
-      newCharacter.harm = 10;
-      newCharacter.dying = true;
-      newCharacter.dead = true;
-      newCharacter.deathMsg = "You died from an overdose of Myth..";
-    } else {
-      newCharacter.mythUses++;
-      newCharacter.need = 0;
-      newCharacter.addictionProgress++;
-      newCharacter.addiction = Math.floor(newCharacter.addictionProgress / 3);
-    }
-    setCharacter(newCharacter);
-  }
-
-  const minusMyth = () => {
-    let newCharacter = { ...character };
-    if (newCharacter.mythUses > 0) {
-      newCharacter.mythUses--;
-    }
-    setCharacter(newCharacter);
   }
 
   const resurrect = () => {
@@ -301,48 +269,7 @@ const CharacterSheet = (props) => {
         setDiceState={setDiceState}
       />
 
-      <div className="section addiction">
-        <h2>Myth Addiction</h2>
-        <p>Level</p>
-        <div className="addLevel">
-          <p>0</p>
-          {addArr.map((el, i) => {
-            if (el % 3 === 0) {
-              return (
-                <p key={`addLevel${el / 3}`} className={character.addiction >= el / 3 ? "levelBold" : ""}>{el / 3}</p>
-              )
-            }
-          })}
-        </div>
-        <div className="addMeter">
-          {addArr.map((el, i) => {
-            return (
-              <div className={`addMeterSection ${el % 3 === 0 ? "boldRight" : ""} ${el <= character.addictionProgress ? "filled" : ""}`} key={`addiction${i}`} />
-            )
-          })}
-        </div>
-        <p>Need</p>
-        <div className="needContainer">
-          {addArr.map((el, i) => {
-            let val = el / 3;
-            if (el % 3 === 0) {
-              return (
-                <div key={`need${val}`} className={`${character.need >= val ? "need redFill" : "need"} ${(val - 8) * -1 + 2 <= character.addiction ? "hidden" : ""}`} />
-              )
-            }
-          })}
-        </div>
-        <p>Myth Uses</p>
-        <div className="plusMinus">
-          <button type='button' className='diceButton'>
-            <input type='image' onClick={minusMyth} src='/static/icons/circle-minus-solid.svg' alt='subtract harm' className='filter' />
-          </button>
-          <button type='button' className='diceButton'>
-            <input type='image' onClick={addMyth} src='/static/icons/circle-plus-solid.svg' alt='add harm' className='filter' />
-          </button>
-        </div>
-        <p>{character.mythUses}</p>
-      </div>
+      <Addiction character={character} setCharacter={setCharacter} />
 
       <div className="section wealth">
         <h2>Wealth</h2>
