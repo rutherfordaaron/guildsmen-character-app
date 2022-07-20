@@ -1,4 +1,9 @@
 const Details = (props) => {
+  /**
+   * Take event name and match it to a character.detail name
+   * Set event value to that character.detail content
+   * @param {Event value} e 
+   */
   const detailsChange = (e) => {
     let newCharacter = { ...props.character };
     for (let i = 0; i < newCharacter.details.length; i++) {
@@ -16,19 +21,39 @@ const Details = (props) => {
       <div className="detailsGrid">
         <div>
           <h3>Goals & Motives</h3>
-          <textarea value={props.character.details[0].content} className="detailsInput" name="goals" onChange={detailsChange} />
+          <textarea
+            value={props.character.details[0].content}
+            className="detailsInput"
+            name="goals"
+            onChange={detailsChange}
+          />
         </div>
         <div>
           <h3>Personal Morals</h3>
-          <textarea value={props.character.details[1].content} className="detailsInput" name="morals" onChange={detailsChange} />
+          <textarea
+            value={props.character.details[1].content}
+            className="detailsInput"
+            name="morals"
+            onChange={detailsChange}
+          />
         </div>
         <div>
           <h3>Flaws & Weaknesses</h3>
-          <textarea value={props.character.details[2].content} className="detailsInput" name="weaknesses" onChange={detailsChange} />
+          <textarea
+            value={props.character.details[2].content}
+            className="detailsInput"
+            name="weaknesses"
+            onChange={detailsChange}
+          />
         </div>
         <div>
           <h3>Important Connections</h3>
-          <textarea value={props.character.details[3].content} className="detailsInput" name="connections" onChange={detailsChange} />
+          <textarea
+            value={props.character.details[3].content}
+            className="detailsInput"
+            name="connections"
+            onChange={detailsChange}
+          />
         </div>
       </div>
     </div>
