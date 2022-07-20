@@ -8,7 +8,7 @@ const Details = (props) => {
     let newCharacter = { ...props.character };
     for (let i = 0; i < newCharacter.details.length; i++) {
       if (newCharacter.details[i].name === e.target.name) {
-        newCharacter.details[index].content = e.target.value;
+        newCharacter.details[i].content = e.target.value;
       }
     }
 
