@@ -1,8 +1,22 @@
 const Skills = (props) => {
-  const skillCheck = (e) => {
+  /**
+   * Determine skill to act with by comparing all character skills' names to given skill name
+   * Once found, store that skill object for easier reference
+   * Get 2 random numbers (1-6) via rollDice()
+   * store the modifier of the skill, the name and the total of the roll (random numbers + modifier)
+   * initialize variable to store modifier string if modifier is >-1
+   * If modifier is -1, append + to modifier as a string
+   * If total is >= 8, increment experience progress
+   * * and if experience progress is now >= 4, increment experience and set experience progress to 0
+   * otherwise (total < 8), do nothing.
+   * Set result message to show skill name, random numbers rolled, modifier, and total
+   * @param {name of skill to roll} name
+   * @returns total number form 2 random numbers (1-6) and the skill modifier
+   */
+  const skillCheck = (name) => {
     let skill = {};
     for (let i = 0; i < props.character.skills.length; i++) {
-      if (props.character.skills[i].name === e) {
+      if (props.character.skills[i].name === name) {
         skill = props.character.skills[i];
       }
     }
@@ -41,6 +55,14 @@ const Skills = (props) => {
     return (rolls.num1 + rolls.num2 + modifier)
   }
 
+  /**
+   * Determine skill to act with by comparing all character skills' names to given skill name
+   * Once found, store that skill object for easier reference
+   * Then check if skill doesn't have a primary specialty (spec1)
+   * * If not, display a message that explains that
+   * * If so, do the exact same thing as skill check, but add an aditional 2 
+   * @param {DOM event} e 
+   */
   const primaryCheck = (e) => {
     let skill = {};
     for (let i = 0; i < props.character.skills.length; i++) {
@@ -91,6 +113,14 @@ const Skills = (props) => {
     }
   }
 
+  /**
+   * Determine skill to act with by comparing all character skills' names to given skill name
+   * Once found, store that skill object for easier reference
+   * Then check if skill doesn't have a secondary specialty (spec2)
+   * * If not, display a message that explains that
+   * * If so, do the exact same thing as skill check, but add an aditional 1
+   * @param {DOM event} e 
+   */
   const secondaryCheck = (e) => {
     let skill = {};
     for (let i = 0; i < props.character.skills.length; i++) {
