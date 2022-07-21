@@ -175,6 +175,7 @@ const Skills = (props) => {
     <div className="section skills">
       <h2>Skills</h2>
       <div className="skillsGrid">
+        {/* Map over all character skills and create skill containers using the data from each skill */}
         {props.character.skills.map((el, i) => {
           return (
             <div key={`stat${i}`} className={`skillContainer ${el.name === 'Throwdown' ? 'throwdown' : 'skill'}`}>
