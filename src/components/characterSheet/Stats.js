@@ -1,8 +1,22 @@
 const Stats = (props) => {
-  const statCheck = (e) => {
+  /**
+   * Determine stat to act with by comparing all character stats' names to given stat name
+   * Once found, store that stat object for easier reference
+   * Get 2 random numbers (1-6) via rollDice()
+   * store the modifier of the stat, the name and the total of the roll (random numbers + modifier)
+   * initialize variable to store modifier string if modifier is >-1
+   * If modifier is -1, append + to modifier as a string
+   * If total is >= 8, increment experience progress
+   * * and if experience progress is now >= 4, increment experience and set experience progress to 0
+   * otherwise (total < 8), do nothing.
+   * Set result message to show stat name, random numbers rolled, modifier, and total
+   * @param {name of stat to roll} name
+   * @returns total number form 2 random numbers (1-6) and the stat modifier
+   */
+  const statCheck = (name) => {
     let stat = {};
     for (let i = 0; i < props.character.stats.length; i++) {
-      if (props.character.stats[i].name === e) {
+      if (props.character.stats[i].name === name) {
         stat = props.character.stats[i];
       }
     }
@@ -41,6 +55,7 @@ const Stats = (props) => {
           <p>+3</p>
         </div>
       </div>
+      {/* Map over character skills and create stat containers using that information */}
       {props.character.stats.map((el, i) => {
         return (
           <div key={`stat${i}`} className='stat'>
