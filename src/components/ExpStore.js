@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Start from "./expStore/Start";
 import Skills from "./expStore/Skills";
+import Stats from "./expStore/Stats";
 import './css/ExpStore.css';
 
 const ExpStore = (props) => {
@@ -13,33 +14,6 @@ const ExpStore = (props) => {
   useEffect(() => {
     props.setCharacter(character);
   });
-
-  const selectStat = (e) => {
-    let stat;
-    let index;
-
-    for (let i = 0; i < character.stats.length; i++) {
-      if (character.stats[i].name === e.target.value) {
-        stat = { ...character.stats[i] };
-        index = i;
-      }
-    }
-
-    if (stat.modifier >= 3) {
-      setError("That stat is maxed out!");
-      flash();
-    } else if (character.exp < stat.modifier + 2) {
-      setError("Not enough EXP for that!");
-      flash();
-    } else {
-      let newCharacter = { ...character };
-      newCharacter.stats[index].modifier++;
-      newCharacter.experience = character.experience - (stat.modifier + 2);
-      setCharacter(newCharacter);
-      setError(`${stat.name} increased!`);
-      flash();
-    }
-  }
 
   const selectSkillSpec = (e) => {
     let skill = {};
@@ -220,26 +194,20 @@ const ExpStore = (props) => {
         <h2>The Experience Store</h2>
         <p className="availableExp"><strong>{character.experience} EXP available</strong></p>
         {display === 'start' ? <Start setDisplay={setDisplay} />
-          : display === 'skills' ? <Skills setError={setError} falsh={flash} character={character} setCharacter={setCharacter} />
+          : display === 'skills' ?
+            <Skills
+              setError={setError}
+              flash={flash}
+              character={character}
+              setCharacter={setCharacter}
+            />
             : display === 'stats' ?
-              <div>
-                <p>What stat would you like to increase?</p>
-                <div className='statsContainer'>
-                  {character.stats.map((el, i) => {
-                    return (
-                      <button
-                        type="button"
-                        className="block"
-                        value={el.name}
-                        onClick={selectStat}
-                        key={`increaseSkill${i}`}
-                      >
-                        {el.name} <span className="expReq">({el.modifier < 3 ? `${el.modifier + 2} EXP` : "MAXED"})</span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
+              <Stats
+                setError={setError}
+                flash={flash}
+                character={character}
+                setCharacter={setCharacter}
+              />
               : display === 'specialty' ?
                 <div>
                   <p>What skill would you like to specialize?</p>
