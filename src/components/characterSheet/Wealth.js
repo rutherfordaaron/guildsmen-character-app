@@ -1,6 +1,10 @@
 const Wealth = (props) => {
+  // Array to map over to create wealth bubbles since wealth is a solid value
   const weaArr = [1, 2, 3, 4, 5];
 
+  /**
+   * Decrement wealth without allowing it to drop beneath 1
+   */
   const minusWealth = () => {
     let newCharacter = { ...props.character };
     if (newCharacter.wealth > 1) {
@@ -9,6 +13,9 @@ const Wealth = (props) => {
     props.setCharacter(newCharacter);
   }
 
+  /**
+   * Increment wealth but never let it exceed 5
+   */
   const addWealth = () => {
     let newCharacter = { ...props.character };
     if (newCharacter.wealth < 5) {
@@ -30,6 +37,7 @@ const Wealth = (props) => {
       </div>
       <div className="wealthGrid">
         <div className="bubbleCol">
+          {/* Map over weaArr to create the bubbles to represent wealth's value */}
           {weaArr.map((el, i) => {
             return (
               <div key={`wealth${i}`} className={el <= props.character.wealth ? "filled bubble" : "bubble"} />
