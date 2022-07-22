@@ -21,6 +21,10 @@
   padding: 15px;
 }
 
+.expStore button {
+  padding: 5px;
+}
+
 .expStore p {
   font-size: 12px;
 }

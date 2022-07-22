@@ -24,7 +24,6 @@ const Skills = (props) => {
     let rolls = props.rollDice();
     let modifier = skill.modifier;
     let modifierString;
-    let name = skill.name;
     let total = rolls.num1 + rolls.num2 + modifier;
 
     if (modifier > -1) {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Start from "./expStore/Start";
 import './css/ExpStore.css';
 
 const ExpStore = (props) => {
@@ -12,9 +13,7 @@ const ExpStore = (props) => {
     props.setCharacter(character);
   });
 
-  const startClick = (e) => {
-    setDisplay(e.target.value)
-  }
+ 
 
   const selectSkill = (e) => {
     let skill;
@@ -248,13 +247,7 @@ const ExpStore = (props) => {
       <div className='expStore'>
         <h2>The Experience Store</h2>
         <p className="availableExp"><strong>{character.experience} EXP available</strong></p>
-        {display === 'start' ?
-          <div className="start">
-            <p>What would you like to do?</p>
-            <button type="button" value="stats" onClick={startClick}>Increase a Stat</button>
-            <button type="button" value="skills" onClick={startClick}>Increase a Skill</button>
-            <button type="button" value="specialty" onClick={startClick}>Buy a Specialty</button>
-          </div>
+        {display === 'start' ? <Start setDisplay={setDisplay} />
           : display === 'skills' ?
             <div>
               <p>What skill would you like to increase?</p>

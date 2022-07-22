@@ -24,7 +24,6 @@ const Stats = (props) => {
     let rolls = props.rollDice();
     let modifier = stat.modifier;
     let modifierString;
-    let name = stat.name;
 
     if (modifier > -1) {
       modifierString = `+${modifier}`;

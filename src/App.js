@@ -36,11 +36,10 @@ const App = () => {
       </a>
       {characters?.map((el, i) => {
         return (
-          <div className="characterBtnContainer">
+          <div key={`character${i}`} className="characterBtnContainer">
             <Link
               className="link"
-              key={`character${i}`}
-              to={el.name}
+                            to={el.name}
               value={el.name}
             >
               {el.name}
