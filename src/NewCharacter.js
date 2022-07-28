@@ -1,15 +1,37 @@
 import { useState } from "react";
 
 class Character {
-  constructor(name, race, stats, wealth, luck, skills, details, guild) {
-    this.name = name;
-    this.race = race;
-    this.stats = stats;
-    this.wealth = wealth;
-    this.luck = luck;
-    this.skills = skills;
-    this.details = details;
-    this.guild = guild;
+  constructor() {
+    this.name = undefined;
+    this.race = undefined;
+    this.stats = [
+      { name: 'Nimble', modifier: -1 },
+      { name: 'Tough', modifier: -1 },
+      { name: 'Competence', modifier: -1 },
+      { name: 'Constitution', modifier: -1 },
+    ];
+    this.wealth = undefined;
+    this.luck = undefined;
+    this.skills = [
+      { name: 'Craft', modifier: -1, spec1: null, spec2: null },
+      { name: 'Investigate', modifier: -1, spec1: null, spec2: null },
+      { name: 'Leadership', modifier: -1, spec1: null, spec2: null },
+      { name: 'Medic', modifier: -1, spec1: null, spec2: null },
+      { name: 'Myth', modifier: -1, spec1: null, spec2: null },
+      { name: 'Nature', modifier: -1, spec1: null, spec2: null },
+      { name: 'Performance', modifier: -1, spec1: null, spec2: null },
+      { name: 'Social', modifier: -1, spec1: null, spec2: null },
+      { name: 'Sneaky', modifier: -1, spec1: null, spec2: null },
+      { name: 'Tech', modifier: -1, spec1: null, spec2: null },
+      { name: 'Throwdown', modifier: -1, spec1: null, spec2: null }
+    ];
+    this.details = [
+      { name: 'goals', content: '' },
+      { name: 'morals', content: '' },
+      { name: 'weaknesses', content: '' },
+      { name: 'connections', content: '' }
+    ];
+    this.guild = undefined;
     this.harm = 0;
     this.dying = false;
     this.addiction = 0;
@@ -25,35 +47,7 @@ class Character {
   }
 }
 
-const defaultSkills = [
-  { name: 'Craft', modifier: -1, spec1: null, spec2: null },
-  { name: 'Investigate', modifier: -1, spec1: null, spec2: null },
-  { name: 'Leadership', modifier: -1, spec1: null, spec2: null },
-  { name: 'Medic', modifier: -1, spec1: null, spec2: null },
-  { name: 'Myth', modifier: -1, spec1: null, spec2: null },
-  { name: 'Nature', modifier: -1, spec1: null, spec2: null },
-  { name: 'Performance', modifier: -1, spec1: null, spec2: null },
-  { name: 'Social', modifier: -1, spec1: null, spec2: null },
-  { name: 'Sneaky', modifier: -1, spec1: null, spec2: null },
-  { name: 'Tech', modifier: -1, spec1: null, spec2: null },
-  { name: 'Throwdown', modifier: -1, spec1: null, spec2: null }
-]
-
-const defaultStats = [
-  { name: 'Nimble', modifier: -1 },
-  { name: 'Tough', modifier: -1 },
-  { name: 'Competence', modifier: -1 },
-  { name: 'Constitution', modifier: -1 },
-]
-
-const defaultDetails = [
-  { name: 'goals', content: '' },
-  { name: 'morals', content: '' },
-  { name: 'weaknesses', content: '' },
-  { name: 'connections', content: '' }
-]
-
-let newCharacter = new Character(null, null, defaultStats, null, null, defaultSkills, defaultDetails, null);
+let newCharacter = new Character();
 
 let characters;
 
