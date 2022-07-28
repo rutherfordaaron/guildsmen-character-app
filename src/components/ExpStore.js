@@ -6,12 +6,14 @@ import Specialty from "./expStore/Specialty";
 import './css/ExpStore.css';
 
 const ExpStore = (props) => {
+  // State for the expStore
   let [character, setCharacter] = useState({ ...props.character });
   let [display, setDisplay] = useState('start');
   let [error, setError] = useState("");
   let [specSkill, setSpecSkill] = useState({});
   let [list, setList] = useState(<div />);
 
+  // Set character changes any time the state updates
   useEffect(() => {
     props.setCharacter(character);
   });
@@ -21,6 +23,7 @@ const ExpStore = (props) => {
       <div className='expStore'>
         <h2>The Experience Store</h2>
         <p className="availableExp"><strong>{character.experience} EXP available</strong></p>
+        {/* Ternary expressions to determine what page to display based on display state variable */}
         {display === 'start' ? <Start setDisplay={setDisplay} />
           : display === 'skills' ?
             <Skills
@@ -61,6 +64,9 @@ const ExpStore = (props) => {
   )
 }
 
+/**
+ * Function to show the error message, then remove it so it doesn't block any buttons, and make it fade out
+*/
 const flash = () => {
   const errorContainer = document.getElementById('errorContainer');
 
