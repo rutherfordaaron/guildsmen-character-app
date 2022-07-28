@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import './components/css/App.css';
+import './components/css/CharacterList.css';
 
 
-const App = () => {
+const CharacterList = () => {
   let [itemToDelete, setItemToDelete] = useState('')
   let [characters, setCharacters] = useState(JSON.parse(localStorage.getItem('guildsmenCharacters')))
 
@@ -61,4 +61,4 @@ const App = () => {
   )
 }
 
-export default App;
+export default CharacterList;
