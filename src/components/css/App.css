@@ -370,14 +370,17 @@ img {
   margin: 0 auto;
 }
 
-.gear .gearAdd input {
-  width: 18px;
+.gearButton {
+  width: 15px;
   height: auto;
+  padding: 0;
 }
 
-.gear .gearAdd {
-  margin-left: 10px;
-  display: inline;
+.gearInputContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .gear .trashButton {
@@ -389,12 +392,11 @@ img {
 }
 
 .gearInput {
-  margin: 0 auto;
   background-color: inherit;
   color: inherit;
   border: 1px solid var(--text-color);
   padding: 5px;
-  display: block;
+  margin-left: 20px;
 }
 
 .detailsInput {
