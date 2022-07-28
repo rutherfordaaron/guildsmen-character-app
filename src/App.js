@@ -30,16 +30,16 @@ const App = () => {
   return (
     <div className="app">
       <h1>Your Characters</h1>
-      <a className="link createCharacter" href='https://guildsmen-ttrpg.com/resources/character-creator.html'>
+      <Link className="link createCharacter" to="new-character">
         Create a New Charcter
         <img className="filter" alt='' src='/static/icons/arrow-right-solid.svg' />
-      </a>
+      </Link>
       {characters?.map((el, i) => {
         return (
           <div key={`character${i}`} className="characterBtnContainer">
             <Link
               className="link"
-                            to={el.name}
+              to={el.name}
               value={el.name}
             >
               {el.name}
