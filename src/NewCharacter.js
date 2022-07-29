@@ -12,7 +12,7 @@ import Wealth from "./components/newCharacter/Wealth";
 import Guild from "./components/newCharacter/Guild";
 import Complete from "./components/newCharacter/Complete";
 
-class Character {
+class GuildsmenCharacter {
   constructor() {
     this.name = undefined;
     this.race = undefined;
@@ -59,8 +59,6 @@ class Character {
   }
 }
 
-let newCharacter = new Character();
-
 let characters;
 
 if (localStorage.getItem('guildsmenCharacters') === null) {
@@ -75,17 +73,30 @@ const toTop = () => {
 }
 
 const NewCharacter = (props) => {
-  let [character, setCharacter] = useState(newCharacter);
-  let [display, setDisplay] = useState(1);
+  let [info, setInfo] = useState({ name: undefined, demeanor: undefined, physique: undefined });
+  let [race, setRace] = useState(undefined);
+  let [luck, setLuck] = useState(undefined);
+  let [details, setDetails] = useState([
+    { name: 'goals', content: '' },
+    { name: 'morals', content: '' },
+    { name: 'weaknesses', content: '' },
+    { name: 'connections', content: '' }
+  ]);
+  let [skills, setSkills] = useState([]);
+  let [wealth, setWealth] = useState(undefined);
+  let [guild, setGuild] = useState(undefined);
+
+  let [navBtnState, setNavBtnState] = useState("")
+  let [display, setDisplay] = useState(0);
   let displayArr = [
-    <Info character={character} setCharacter={setCharacter} />,
-    <Race character={character} setCharacter={setCharacter} />,
-    <Luck character={character} setCharacter={setCharacter} />,
-    <Details character={character} setCharacter={setCharacter} />,
-    <StartingSkills character={character} setCharacter={setCharacter} />,
-    <Wealth character={character} setCharacter={setCharacter} />,
-    <Guild character={character} setCharacter={setCharacter} />,
-    <Complete character={character} setCharacter={setCharacter} />
+    <Info setInfo={setInfo} />,
+    <Race setRace={setRace} />,
+    <Luck setLuck={setLuck} />,
+    <Details setDetails={setDetails} />,
+    <StartingSkills setSkills={setSkills} />,
+    <Wealth setWealth={setWealth} />,
+    <Guild setGuild={setGuild} />,
+    <Complete />
   ];
 
   const nextPrev = (e) => {
@@ -101,7 +112,14 @@ const NewCharacter = (props) => {
       : index > displayArr.length - 1 ? index = displayArr.length - 1
         : index = display + increment;
 
-    console.log(index);
+    if (index === displayArr.length - 2) {
+      document.getElementById("next").innerHTML = "Submit"
+    } else {
+      document.getElementById("next").innerHTML = 'Next<img src="/static/icons/arrow-right-solid.svg" alt="" class="filter" />'
+    }
+    if (index === displayArr.length - 1) {
+      setNavBtnState("hidden");
+    }
     setDisplay(index);
   }
 
@@ -109,7 +127,7 @@ const NewCharacter = (props) => {
     <div>
       <h1>New Character Creator</h1>
       {displayArr[display]}
-      <div className="nextPrevBtns">
+      <div className={`nextPrevBtns ${navBtnState}`}>
         <button type="button" onClick={nextPrev} id="prev">
           <img src="/static/icons/arrow-left-solid.svg" alt="" className="filter" />Prev
         </button>
