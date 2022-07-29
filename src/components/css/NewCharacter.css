@@ -1,0 +1,22 @@
+.nextPrevBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+}
+
+.nextPrevBtns button {
+  padding: 10px;
+  width: 150px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.nextPrevBtns button:hover {
+  background-color: var(--nav-color);
+}

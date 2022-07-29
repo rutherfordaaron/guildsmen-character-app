@@ -1,5 +1,7 @@
 import { useState } from "react";
+// CSS imports
 import './components/css/CharacterList.css';
+import "./components/css/NewCharacter.css";
 // component imports
 import Info from "./components/newCharacter/Info";
 import Race from "./components/newCharacter/Race";
@@ -85,10 +87,36 @@ const NewCharacter = (props) => {
     <Guild character={character} setCharacter={setCharacter} />,
     <Complete character={character} setCharacter={setCharacter} />
   ];
+
+  const nextPrev = (e) => {
+    let increment;
+    if (e.target.id === "prev") {
+      increment = -1;
+    } else {
+      increment = 1;
+    }
+
+    let index = display + increment;
+    index < 0 ? index = 0
+      : index > displayArr.length - 1 ? index = displayArr.length - 1
+        : index = display + increment;
+
+    console.log(index);
+    setDisplay(index);
+  }
+
   return (
     <div>
-      <h1>New Character</h1>
+      <h1>New Character Creator</h1>
       {displayArr[display]}
+      <div className="nextPrevBtns">
+        <button type="button" onClick={nextPrev} id="prev">
+          <img src="/static/icons/arrow-left-solid.svg" alt="" className="filter" />Prev
+        </button>
+        <button type="button" onClick={nextPrev} id="next">
+          Next<img src="/static/icons/arrow-right-solid.svg" alt="" className="filter" />
+        </button>
+      </div>
     </div>
   )
 }
