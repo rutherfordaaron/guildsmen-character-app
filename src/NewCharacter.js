@@ -1,4 +1,14 @@
 import { useState } from "react";
+import './components/css/CharacterList.css';
+// component imports
+import Info from "./components/newCharacter/Info";
+import Race from "./components/newCharacter/Race";
+import Luck from "./components/newCharacter/Luck";
+import Details from "./components/newCharacter/Details";
+import StartingSkills from "./components/newCharacter/StartingSkills";
+import Wealth from "./components/newCharacter/Wealth";
+import Guild from "./components/newCharacter/Guild";
+import Complete from "./components/newCharacter/Complete";
 
 class Character {
   constructor() {
@@ -64,22 +74,21 @@ const toTop = () => {
 
 const NewCharacter = (props) => {
   let [character, setCharacter] = useState(newCharacter);
-  let [display, setDisplay] = useState(0);
+  let [display, setDisplay] = useState(1);
   let displayArr = [
-    /*
-    0. Info (name, demeanor, physique)
-    1. race
-    2. Luck (1 die only!)
-    3. details
-    4. starting skills
-    5. wealth
-    6. guild
-    7. success!
-    */
+    <Info character={character} setCharacter={setCharacter} />,
+    <Race character={character} setCharacter={setCharacter} />,
+    <Luck character={character} setCharacter={setCharacter} />,
+    <Details character={character} setCharacter={setCharacter} />,
+    <StartingSkills character={character} setCharacter={setCharacter} />,
+    <Wealth character={character} setCharacter={setCharacter} />,
+    <Guild character={character} setCharacter={setCharacter} />,
+    <Complete character={character} setCharacter={setCharacter} />
   ];
   return (
     <div>
       <h1>New Character</h1>
+      {displayArr[display]}
     </div>
   )
 }
