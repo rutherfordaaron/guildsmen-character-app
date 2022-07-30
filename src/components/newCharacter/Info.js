@@ -1,4 +1,11 @@
 const Info = (props) => {
+  /**
+   * Change state when any of the input's change
+   * If the input is an empty string, make the border red to indicate that the field is required
+   * Check input id to determine which value of the info object needs to be updated
+   * Update the info object value with the corresponding input value
+   * @param {DOM event} e 
+   */
   const inputChange = (e) => {
     if (e.target.value === "") {
       e.target.classList.add("errorBorder");
