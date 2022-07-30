@@ -52,6 +52,6 @@
   margin: 0 auto;
 }
 
-.errorTextInput {
+.errorBorder {
   border-color: hsl(0, 70%, 50%) !important;
 }

@@ -1,9 +1,9 @@
 const Info = (props) => {
   const inputChange = (e) => {
     if (e.target.value === "") {
-      e.target.classList.add("errorTextInput");
+      e.target.classList.add("errorBorder");
     } else {
-      e.target.classList.remove("errorTextInput");
+      e.target.classList.remove("errorBorder");
     }
     let info = { ...props.info };
     switch (e.target.id) {
@@ -35,6 +35,7 @@ const Info = (props) => {
             type="text"
             placeholder="Character Name"
             id="name"
+            value={props.info.name || ""}
           />
         </label>
         <label className="textInputLabel">Demeanor:
@@ -43,7 +44,9 @@ const Info = (props) => {
             onChange={inputChange}
             type="text"
             placeholder="Character Demeanor"
-            id="demeanor" />
+            value={props.info.demeanor || ""}
+            id="demeanor"
+          />
         </label>
         <label className="textInputLabel">Physique:
           <input
@@ -51,7 +54,9 @@ const Info = (props) => {
             onChange={inputChange}
             type="text"
             placeholder="Character Physique"
-            id="physique" />
+            value={props.info.physique || ""}
+            id="physique"
+          />
         </label>
       </div>
 

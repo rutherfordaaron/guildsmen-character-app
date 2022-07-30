@@ -107,6 +107,14 @@ const NewCharacter = (props) => {
       increment = 1;
     }
 
+    if (increment === 1) {
+      if (!validate()) {
+        document.getElementById("warning").classList.remove("hidden");
+        setTimeout(() => document.getElementById("warning").classList.add("hidden"), 3000);
+        return false;
+      }
+    }
+
     let index = display + increment;
     index < 0 ? index = 0
       : index > displayArr.length - 1 ? index = displayArr.length - 1
@@ -123,6 +131,22 @@ const NewCharacter = (props) => {
     }
 
     setDisplay(index);
+  }
+
+  const validate = () => {
+    switch (display) {
+      case 0:
+        const name = document.getElementById('name');
+        const demeanor = document.getElementById('demeanor');
+        const physique = document.getElementById('physique');
+        if (name.value === "") { name.classList.add("errorBorder"); }
+        if (demeanor.value === "") { demeanor.classList.add("errorBorder"); }
+        if (physique.value === "") { physique.classList.add("errorBorder"); }
+        return (name.value !== "" && demeanor.value !== "" && physique.value !== "");
+      default:
+        console.error("no validation set up yet");
+        return true;
+    }
   }
 
   return (
