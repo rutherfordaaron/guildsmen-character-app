@@ -1,8 +1,13 @@
+.characterCreator p {
+  text-align: justify;
+}
+
 .nextPrevBtns {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 50px;
+  margin-top: 50px;
 }
 
 .nextPrevBtns button {
@@ -19,4 +24,34 @@
 
 .nextPrevBtns button:hover {
   background-color: var(--nav-color);
+}
+
+.textInputLabel {
+  display: block;
+}
+
+.textInputLabel input {
+  background-color: inherit;
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--text-color);
+  border-radius: 2px;
+  margin: 5px 5px;
+}
+
+.textInputLabel input:focus {
+  outline: 1px solid var(--text-color);
+}
+
+.textInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.errorTextInput {
+  border-color: hsl(0, 70%, 50%) !important;
 }

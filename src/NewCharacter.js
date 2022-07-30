@@ -89,7 +89,7 @@ const NewCharacter = (props) => {
   let [navBtnState, setNavBtnState] = useState("")
   let [display, setDisplay] = useState(0);
   let displayArr = [
-    <Info setInfo={setInfo} />,
+    <Info setInfo={setInfo} info={info} />,
     <Race setRace={setRace} />,
     <Luck setLuck={setLuck} />,
     <Details setDetails={setDetails} />,
@@ -117,15 +117,17 @@ const NewCharacter = (props) => {
     } else {
       document.getElementById("next").innerHTML = 'Next<img src="/static/icons/arrow-right-solid.svg" alt="" class="filter" />'
     }
+
     if (index === displayArr.length - 1) {
       setNavBtnState("hidden");
     }
+
     setDisplay(index);
   }
 
   return (
-    <div>
-      <h1>New Character Creator</h1>
+    <div className="characterCreator">
+      <h1>Character Creator</h1>
       {displayArr[display]}
       <div className={`nextPrevBtns ${navBtnState}`}>
         <button type="button" onClick={nextPrev} id="prev">
