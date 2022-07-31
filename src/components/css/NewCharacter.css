@@ -119,3 +119,16 @@ button {
 .center {
   text-align: center !important;
 }
+
+.luckBtn {
+  font-size: 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  padding: 10px;
+  width: 150px;
+  margin: 20px auto;
+}
+
+.luckBtn:hover {
+  background-color: var(--nav-color);
+}

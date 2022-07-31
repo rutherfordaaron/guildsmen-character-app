@@ -130,6 +130,7 @@ const NewCharacter = (props) => {
       setNavBtnState("hidden");
     }
 
+    toTop();
     setDisplay(index);
   }
 
