@@ -72,7 +72,7 @@ const Info = (props) => {
       <p><strong>Physique</strong> is how your character is phyisically built. Write in an adjective like fat, thin, lean, strong, etc. This adjective is a tool to help the Game Master know what Non-Player Characters in the world would see at a glance.</p>
 
       <div className="warning fadeOut hidden" id="warning">
-        <p>You must enter a name, physique, and demeanor before moving on!</p>
+        <p className="center">You must enter a name, physique, and demeanor before moving on!</p>
       </div>
     </div>
   )

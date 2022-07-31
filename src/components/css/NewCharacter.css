@@ -55,3 +55,67 @@
 .errorBorder {
   border-color: hsl(0, 70%, 50%) !important;
 }
+
+input[type="radio"] {
+  /* Remove most all native input styles */
+  appearance: none;
+  /* For iOS < 15 */
+  background-color: var(--form-background);
+  /* Not removed via appearance */
+  margin: 0;
+
+  font: inherit;
+  color: var(--text-color);
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--text-color);
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.raceInput {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+button {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoBtn {
+  rotate: 180deg;
+}
+
+.raceInputContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.center {
+  text-align: center !important;
+}

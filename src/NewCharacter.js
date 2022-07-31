@@ -90,7 +90,7 @@ const NewCharacter = (props) => {
   let [display, setDisplay] = useState(0);
   let displayArr = [
     <Info setInfo={setInfo} info={info} />,
-    <Race setRace={setRace} />,
+    <Race setRace={setRace} race={race} />,
     <Luck setLuck={setLuck} />,
     <Details setDetails={setDetails} />,
     <StartingSkills setSkills={setSkills} />,
@@ -110,7 +110,7 @@ const NewCharacter = (props) => {
     if (increment === 1) {
       if (!validate()) {
         document.getElementById("warning").classList.remove("hidden");
-        setTimeout(() => document.getElementById("warning").classList.add("hidden"), 3000);
+        setTimeout(() => document.getElementById("warning").classList.add("hidden"), 2000);
         return false;
       }
     }
@@ -143,6 +143,14 @@ const NewCharacter = (props) => {
         if (demeanor.value === "") { demeanor.classList.add("errorBorder"); }
         if (physique.value === "") { physique.classList.add("errorBorder"); }
         return (name.value !== "" && demeanor.value !== "" && physique.value !== "");
+      case 1:
+        const inputArr = document.getElementsByTagName("input");
+        for (let i = 0; i < inputArr.length; i++) {
+          if (inputArr[i].checked) {
+            return true;
+          }
+        }
+        return false;
       default:
         console.error("no validation set up yet");
         return true;
