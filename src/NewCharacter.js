@@ -91,7 +91,7 @@ const NewCharacter = (props) => {
   let displayArr = [
     <Info setInfo={setInfo} info={info} />,
     <Race setRace={setRace} race={race} />,
-    <Luck setLuck={setLuck} />,
+    <Luck setLuck={setLuck} luck={luck} />,
     <Details setDetails={setDetails} />,
     <StartingSkills setSkills={setSkills} />,
     <Wealth setWealth={setWealth} />,
@@ -152,6 +152,8 @@ const NewCharacter = (props) => {
           }
         }
         return false;
+      case 2:
+        return luck;
       default:
         console.error("no validation set up yet");
         return true;

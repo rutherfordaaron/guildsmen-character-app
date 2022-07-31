@@ -132,3 +132,8 @@ button {
 .luckBtn:hover {
   background-color: var(--nav-color);
 }
+
+.luckText {
+  font-size: 18px;
+  text-decoration: underline;
+}
