@@ -22,7 +22,7 @@ class GuildsmenCharacter {
       { name: 'Competence', modifier: -1 },
       { name: 'Constitution', modifier: -1 },
     ];
-    this.wealth = undefined;
+    this.wealth = 3;
     this.luck = undefined;
     this.skills = [
       { name: 'Craft', modifier: -1, spec1: null, spec2: null },
@@ -96,7 +96,7 @@ const NewCharacter = (props) => {
     Throwdown: -1
   });
   let [skillCount, setSkillCount] = useState(0);
-  let [wealth, setWealth] = useState(undefined);
+  let [wealth, setWealth] = useState(3);
   let [guild, setGuild] = useState(undefined);
 
   let [navBtnState, setNavBtnState] = useState("")
@@ -112,8 +112,8 @@ const NewCharacter = (props) => {
       skillCount={skillCount}
       setSkillCount={setSkillCount}
     />,
-    <Wealth setWealth={setWealth} />,
-    <Guild setGuild={setGuild} />,
+    <Wealth setWealth={setWealth} wealth={wealth} />,
+    <Guild setGuild={setGuild} guild={guild} />,
     <Complete />
   ];
 

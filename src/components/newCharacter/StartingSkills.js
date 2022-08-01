@@ -1,9 +1,10 @@
 const StartingSkills = (props) => {
   const changeSkill = (skill, num) => {
     let newSkills = { ...props.skills };
+    let currentSkill = newSkills[skill];
     let count = 11;
 
-    if (props.skillCount >= 4 || props.skillCount + num + 1 > 4) {
+    if (props.skillCount >= 4 || props.skillCount - currentSkill + num > 4) {
       if (newSkills[skill] === num) {
         newSkills[skill] = -1;
       } else if (newSkills[skill] > num) {
