@@ -82,7 +82,20 @@ const NewCharacter = (props) => {
     { name: 'weaknesses', content: '' },
     { name: 'connections', content: '' }
   ]);
-  let [skills, setSkills] = useState([]);
+  let [skills, setSkills] = useState({
+    Craft: -1,
+    Investigate: -1,
+    Leadership: -1,
+    Medic: -1,
+    Myth: -1,
+    Nature: -1,
+    Performance: -1,
+    Social: -1,
+    Sneak: -1,
+    Tech: -1,
+    Throwdown: -1
+  });
+  let [skillCount, setSkillCount] = useState(0);
   let [wealth, setWealth] = useState(undefined);
   let [guild, setGuild] = useState(undefined);
 
@@ -93,7 +106,12 @@ const NewCharacter = (props) => {
     <Race setRace={setRace} race={race} />,
     <Luck setLuck={setLuck} luck={luck} />,
     <Details setDetails={setDetails} details={details} />,
-    <StartingSkills setSkills={setSkills} />,
+    <StartingSkills
+      setSkills={setSkills}
+      skills={skills}
+      skillCount={skillCount}
+      setSkillCount={setSkillCount}
+    />,
     <Wealth setWealth={setWealth} />,
     <Guild setGuild={setGuild} />,
     <Complete />
@@ -158,6 +176,10 @@ const NewCharacter = (props) => {
         return false;
       case 2:
         return luck;
+      case 3:
+        return true;
+      case 4:
+        return (skillCount === 4);
       default:
         console.error("no validation set up yet");
         return true;

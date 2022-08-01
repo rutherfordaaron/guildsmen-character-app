@@ -159,3 +159,38 @@ textarea {
   height: 200px;
   padding: 10px;
 }
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: var(--background-color);
+  font: inherit;
+  color: var(--text-color);
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--text-color);
+  transform: translateY(5px);
+  transition: 120ms transform ease-in-out;
+}
+
+input[type="checkbox"]:checked {
+  transform: scale(1);
+  width: 15px;
+  height: 15px;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--text-color);
+  transform: translateY(5px);
+  transition: 120ms transform ease-in-out;
+}
+
+.modifierContainer {
+  display: flex;
+  gap: 7px;
+}
+
+.modifierContainer p {
+  margin: 0;
+}
+
+.largeText {
+  font-size: 20px;
+}
