@@ -153,8 +153,10 @@ const Luck = (props) => {
       </button>
 
       <p className="center luckText">
-        Your character's Luck:
-        {!props.luck ? " Undecided" : props.luck > 0 ? ` +${props.luck}` : ` ${props.luck}`}
+        <strong>
+          Your character's Luck:
+          {!props.luck ? " Undecided" : props.luck > 0 ? ` +${props.luck}` : ` ${props.luck}`}
+        </strong>
       </p>
 
       <table className='raceStatTable'>

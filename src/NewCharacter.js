@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // CSS imports
 import './components/css/CharacterList.css';
 import "./components/css/NewCharacter.css";
@@ -98,6 +98,10 @@ const NewCharacter = (props) => {
     <Guild setGuild={setGuild} />,
     <Complete />
   ];
+
+  useEffect(() => {
+    document.getElementById("backToContents").classList.add("hidden");
+  })
 
   const nextPrev = (e) => {
     let increment;
