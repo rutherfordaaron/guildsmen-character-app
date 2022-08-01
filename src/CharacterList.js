@@ -9,6 +9,7 @@ const CharacterList = () => {
 
   useEffect(() => {
     localStorage.setItem('guildsmenCharacters', JSON.stringify(characters));
+    document.getElementById("backToContents").classList.remove("hidden");
   })
 
   const confirmDelete = (e) => {
@@ -30,7 +31,11 @@ const CharacterList = () => {
   return (
     <div className="app">
       <h1>Your Characters</h1>
-      <Link className="link createCharacter" to="new-character">
+      <Link
+        className="link createCharacter"
+        to="new-character"
+        onClick={() => document.getElementById("backToContents").classList.add("hidden")}
+      >
         Create a New Charcter
         <img className="filter" alt='' src='/static/icons/arrow-right-solid.svg' />
       </Link>

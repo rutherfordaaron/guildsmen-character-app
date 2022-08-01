@@ -92,7 +92,7 @@ const NewCharacter = (props) => {
     <Info setInfo={setInfo} info={info} />,
     <Race setRace={setRace} race={race} />,
     <Luck setLuck={setLuck} luck={luck} />,
-    <Details setDetails={setDetails} />,
+    <Details setDetails={setDetails} details={details} />,
     <StartingSkills setSkills={setSkills} />,
     <Wealth setWealth={setWealth} />,
     <Guild setGuild={setGuild} />,

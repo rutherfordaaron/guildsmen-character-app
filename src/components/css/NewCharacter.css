@@ -2,6 +2,11 @@
   text-align: justify;
 }
 
+.characterCreator {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .nextPrevBtns {
   display: flex;
   justify-content: center;
@@ -136,4 +141,22 @@ button {
 .luckText {
   font-size: 18px;
   text-decoration: underline;
+}
+
+.details label {
+  display: block;
+  text-align: justify;
+}
+
+textarea {
+  display: block;
+  background-color: inherit;
+  font: inherit;
+  font-size: inherit;
+  border: 1px solid var(--text-color);
+  color: inherit;
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  height: 200px;
+  padding: 10px;
 }
