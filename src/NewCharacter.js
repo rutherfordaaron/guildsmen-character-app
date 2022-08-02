@@ -182,6 +182,8 @@ const NewCharacter = (props) => {
         return (skillCount === 4);
       case 5:
         return true;
+      case 6:
+        return guild
       default:
         console.error("no validation set up yet");
         return true;

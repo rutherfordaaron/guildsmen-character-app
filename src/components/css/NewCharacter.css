@@ -208,3 +208,7 @@ input[type="checkbox"]:checked {
   width: 100px;
   padding: 5px 0;
 }
+
+.guildInputContainer {
+  width: 150px;
+}
