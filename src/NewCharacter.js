@@ -91,7 +91,7 @@ const NewCharacter = (props) => {
     Nature: -1,
     Performance: -1,
     Social: -1,
-    Sneak: -1,
+    Sneaky: -1,
     Tech: -1,
     Throwdown: -1
   });
@@ -150,6 +150,7 @@ const NewCharacter = (props) => {
 
     if (index === displayArr.length - 1) {
       setNavBtnState("hidden");
+      submitCharacter();
     }
 
     toTop();
@@ -188,6 +189,101 @@ const NewCharacter = (props) => {
         console.error("no validation set up yet");
         return true;
     }
+  }
+
+  const submitCharacter = () => {
+    let newCharacter = new GuildsmenCharacter();
+    // set new skills based on chosen starting skills
+    let newSkills = [...newCharacter.skills];
+    skills.Throwdown < 1 ? skills.Throwdown = 1 : skills.Throwdown = skills.Throwdown;
+    switch (guild) {
+      case "Assassins":
+        skills.Investigate < 1 ? skills.Investigate = 1 : skills.Investigate = skills.Investigate;
+        skills.Sneaky < 1 ? skills.Sneaky = 1 : skills.Sneaky = skills.Sneaky;
+        skills.Social < 1 ? skills.Social = 1 : skills.Social = skills.Social;
+        break;
+      case "Mythic Hunters":
+        skills.Investigate < 1 ? skills.Investigate = 1 : skills.Investigate = skills.Investigate;
+        skills.Medic < 1 ? skills.Medic = 1 : skills.Medic = skills.Medic;
+        skills.Nature < 1 ? skills.Nature = 1 : skills.Nature = skills.Nature;
+        break;
+      case "Explorers":
+        skills.Investigate < 1 ? skills.Investigate = 1 : skills.Investigate = skills.Investigate;
+        skills.Medic < 1 ? skills.Medic = 1 : skills.Medic = skills.Medic;
+        skills.Craft < 1 ? skills.Craft = 1 : skills.Craft = skills.Craft;
+        break;
+      case "Mercenaries":
+        skills.Investigate < 1 ? skills.Investigate = 1 : skills.Investigate = skills.Investigate;
+        skills.Medic < 1 ? skills.Medic = 1 : skills.Medic = skills.Medic;
+        skills.Craft < 1 ? skills.Craft = 1 : skills.Craft = skills.Craft;
+        break;
+      case "Thieves":
+        skills.Investigate < 1 ? skills.Investigate = 1 : skills.Investigate = skills.Investigate;
+        skills.Performance < 1 ? skills.Performance = 1 : skills.Performance = skills.Performance;
+        skills.Sneaky < 1 ? skills.Sneaky = 1 : skills.Sneaky = skills.Sneaky;
+        break;
+    }
+
+    for (const [key, value] of Object.entries(skills)) {
+      for (let i = 0; i < newSkills.length; i++) {
+        if (newSkills[i].name === key) {
+          newSkills[i].modifier = skills[key];
+          console.log(`increasing ${key} to ${value}`);
+        }
+      }
+    }
+
+    newCharacter.skills = [...newSkills];
+    newCharacter.name = info.name;
+    newCharacter.demeanor = info.demeanor;
+    newCharacter.physique = info.physique;
+    newCharacter.species = species;
+    newCharacter.luck = luck;
+    newCharacter.wealth = wealth;
+    newCharacter.details = details;
+    newCharacter.guild = guild;
+    // set stats based on race
+    switch (species) {
+      case "Locess":
+        newCharacter.stats[0].modifier = 2;
+        newCharacter.stats[1].modifier = -1;
+        newCharacter.stats[2].modifier = 1;
+        newCharacter.stats[3].modifier = 0;
+        break;
+      case "Mausca":
+        newCharacter.stats[0].modifier = 2;
+        newCharacter.stats[1].modifier = -1;
+        newCharacter.stats[2].modifier = 0;
+        newCharacter.stats[3].modifier = 1;
+        break;
+      case "Orc":
+        newCharacter.stats[0].modifier = 0;
+        newCharacter.stats[1].modifier = 2;
+        newCharacter.stats[2].modifier = 0;
+        newCharacter.stats[3].modifier = 0;
+        break;
+      case "Matari":
+        newCharacter.stats[0].modifier = -1;
+        newCharacter.stats[1].modifier = 1;
+        newCharacter.stats[2].modifier = 1;
+        newCharacter.stats[3].modifier = 0;
+        break;
+      case "Slated":
+        newCharacter.stats[0].modifier = -1;
+        newCharacter.stats[1].modifier = 0;
+        newCharacter.stats[2].modifier = 2;
+        newCharacter.stats[3].modifier = 1;
+        break;
+      case "Ungal":
+        newCharacter.stats[0].modifier = 0;
+        newCharacter.stats[1].modifier = -1;
+        newCharacter.stats[2].modifier = 1;
+        newCharacter.stats[3].modifier = 2;
+        break;
+    }
+
+    characters.push(newCharacter);
+    localStorage.setItem("guildsmenCharacters", JSON.stringify(characters));
   }
 
   return (

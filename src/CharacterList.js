@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import './components/css/CharacterList.css';
 
 
-const CharacterList = () => {
+const CharacterList = (props) => {
   let [itemToDelete, setItemToDelete] = useState('')
   let [characters, setCharacters] = useState(JSON.parse(localStorage.getItem('guildsmenCharacters')))
 
