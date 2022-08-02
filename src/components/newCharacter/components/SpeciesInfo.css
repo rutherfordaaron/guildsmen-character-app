@@ -1,0 +1,26 @@
+.speciesInfo {
+  position: absolute;
+  z-index: 31;
+  background-color: var(--background-color);
+  top: 100px;
+  min-height: 50vh;
+  width: calc(100% - 60px);
+  border: 2px solid var(--text-color);
+  padding: 10px;
+  max-width: 600px;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.closeBtn img {
+  width: 15px;
+  height: auto;
+}
+
+.speciesStatTable tr td {
+  padding: 2.5px 15px;
+}

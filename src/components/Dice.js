@@ -12,14 +12,14 @@ const Dice = (props) => {
   }
 
   return (
-    <div>
+    <div className={props.diceState}>
       {props.message}
 
-      <div className={`diceContainer ${props.diceState}`}>
+      <div className="diceContainer">
         <motion.div
           animate={animate1}
           transition={{ duration: 1 }}
-          className={`dice dice1 ${props.diceState}`}
+          className="dice dice1"
           style={{
             rotateX: '-45deg',
             rotateY: '-45deg',
@@ -81,7 +81,7 @@ const Dice = (props) => {
         <motion.div
           animate={animate2}
           transition={{ duration: 1 }}
-          className={`dice dice2 ${props.diceState}`}
+          className="dice dice2"
           id="dice2"
           style={{
             rotateX: '-45deg',
@@ -140,7 +140,7 @@ const Dice = (props) => {
           </div>
         </motion.div>
       </div>
-      <button type="button" className={`hideDice ${props.diceState}`} id="resetDiceButton" onClick={props.resetDice}>
+      <button type="button" className="hideDice" id="resetDiceButton" onClick={props.resetDice}>
         Close
       </button>
     </div >

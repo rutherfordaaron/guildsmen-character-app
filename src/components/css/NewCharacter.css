@@ -1,0 +1,214 @@
+.characterCreator p {
+  text-align: justify;
+}
+
+.characterCreator {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.nextPrevBtns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  margin-top: 50px;
+}
+
+.nextPrevBtns button {
+  padding: 10px;
+  width: 150px;
+  font-size: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.nextPrevBtns button:hover {
+  background-color: var(--nav-color);
+}
+
+.textInputLabel {
+  display: block;
+}
+
+.textInputLabel input {
+  background-color: inherit;
+  font: inherit;
+  color: inherit;
+  border: 1px solid var(--text-color);
+  border-radius: 2px;
+  margin: 5px 5px;
+}
+
+.textInputLabel input:focus {
+  outline: 1px solid var(--text-color);
+}
+
+.textInputContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.errorBorder {
+  border-color: hsl(0, 70%, 50%) !important;
+}
+
+input[type="radio"] {
+  /* Remove most all native input styles */
+  appearance: none;
+  /* For iOS < 15 */
+  background-color: var(--form-background);
+  /* Not removed via appearance */
+  margin: 0;
+
+  font: inherit;
+  color: var(--text-color);
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--text-color);
+
+  display: grid;
+  place-content: center;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+.speciesInput {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+button {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.infoBtn {
+  rotate: 180deg;
+}
+
+.speciesInputContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  margin: 0 auto;
+}
+
+.center {
+  text-align: center !important;
+}
+
+.luckBtn {
+  font-size: 20px;
+  border: 1px solid var(--text-color);
+  border-radius: 5px;
+  padding: 10px;
+  width: 150px;
+  margin: 20px auto;
+}
+
+.luckBtn:hover {
+  background-color: var(--nav-color);
+}
+
+.luckText {
+  font-size: 20px;
+}
+
+.details label {
+  display: block;
+  text-align: justify;
+}
+
+textarea {
+  display: block;
+  background-color: inherit;
+  font: inherit;
+  font-size: inherit;
+  border: 1px solid var(--text-color);
+  color: inherit;
+  width: calc(100% - 20px);
+  margin: 10px 0;
+  height: 200px;
+  padding: 10px;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: var(--background-color);
+  font: inherit;
+  color: var(--text-color);
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--text-color);
+  transform: translateY(5px);
+  transition: 120ms transform ease-in-out;
+}
+
+input[type="checkbox"]:checked {
+  transform: scale(1);
+  width: 15px;
+  height: 15px;
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--text-color);
+  transform: translateY(5px);
+  transition: 120ms transform ease-in-out;
+}
+
+.modifierContainer {
+  display: flex;
+  gap: 7px;
+}
+
+.modifierContainer p {
+  margin: 0;
+}
+
+.largeText {
+  font-size: 20px;
+}
+
+.wealthInputContainer {
+  width: 100px;
+  margin: 0 auto;
+}
+
+.wealthInput {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  width: 100px;
+  padding: 5px 0;
+}
+
+.guildInputContainer {
+  width: 150px;
+}

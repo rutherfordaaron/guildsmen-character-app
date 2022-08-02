@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import './css/App.css';
+import './css/CharacterList.css';
 // ChSheet components
 import Dice from './Dice';
 import Character from "./characterSheet/Character";
