@@ -159,7 +159,7 @@ const Luck = (props) => {
         </strong>
       </p>
 
-      <table className='raceStatTable'>
+      <table className='speciesStatTable'>
         <thead>
           <tr>
             <th colSpan='2'>Luck</th>

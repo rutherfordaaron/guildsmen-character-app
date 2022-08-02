@@ -1,4 +1,7 @@
+import { useState } from "react";
+
 const StartingSkills = (props) => {
+  let [message, setMessage] = useState("You must have exactly 4 skill increases before moving on!")
   const changeSkill = (skill, num) => {
     let newSkills = { ...props.skills };
     let currentSkill = newSkills[skill];
@@ -10,12 +13,14 @@ const StartingSkills = (props) => {
       } else if (newSkills[skill] > num) {
         newSkills[skill] = num;
       } else {
+        props.skillCount - currentSkill + num > 4 ? setMessage("You cannot have more than 4 skill increases!") : setMessage("You must have exactly 4 skill increases before moving on!")
         document.getElementById("warning").classList.remove("hidden");
         setTimeout(() => {
           document.getElementById("warning").classList.add("hidden");
         }, 2000);
       }
     } else {
+      setMessage("You must have exactly 4 skill increases before moving on!");
       if (newSkills[skill] === num) {
         newSkills[skill] = -1;
       } else {
@@ -78,7 +83,7 @@ const StartingSkills = (props) => {
       </div>
       <p className="largeText center"><strong>{props.skillCount} skill increases selected.</strong></p>
       <div className="warning fadeOut hidden" id="warning">
-        <p className="center">You must have exactly 4 skill increases before moving on!</p>
+        <p className="center">{message}</p>
       </div>
     </div>
   )
