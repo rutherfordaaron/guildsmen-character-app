@@ -4,7 +4,7 @@ import './components/css/CharacterList.css';
 import "./components/css/NewCharacter.css";
 // component imports
 import Info from "./components/newCharacter/Info";
-import Race from "./components/newCharacter/Race";
+import Species from "./components/newCharacter/Species";
 import Luck from "./components/newCharacter/Luck";
 import Details from "./components/newCharacter/Details";
 import StartingSkills from "./components/newCharacter/StartingSkills";
@@ -15,7 +15,7 @@ import Complete from "./components/newCharacter/Complete";
 class GuildsmenCharacter {
   constructor() {
     this.name = undefined;
-    this.race = undefined;
+    this.species = undefined;
     this.stats = [
       { name: 'Nimble', modifier: -1 },
       { name: 'Tough', modifier: -1 },
@@ -74,7 +74,7 @@ const toTop = () => {
 
 const NewCharacter = (props) => {
   let [info, setInfo] = useState({ name: undefined, demeanor: undefined, physique: undefined });
-  let [race, setRace] = useState(undefined);
+  let [species, setSpecies] = useState(undefined);
   let [luck, setLuck] = useState(undefined);
   let [details, setDetails] = useState([
     { name: 'goals', content: '' },
@@ -103,7 +103,7 @@ const NewCharacter = (props) => {
   let [display, setDisplay] = useState(0);
   let displayArr = [
     <Info setInfo={setInfo} info={info} />,
-    <Race setRace={setRace} race={race} />,
+    <Species setSpecies={setSpecies} species={species} />,
     <Luck setLuck={setLuck} luck={luck} />,
     <Details setDetails={setDetails} details={details} />,
     <StartingSkills
@@ -180,6 +180,8 @@ const NewCharacter = (props) => {
         return true;
       case 4:
         return (skillCount === 4);
+      case 5:
+        return true;
       default:
         console.error("no validation set up yet");
         return true;

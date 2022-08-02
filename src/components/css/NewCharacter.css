@@ -97,7 +97,7 @@ input[type="radio"]:checked::before {
   transform: scale(1);
 }
 
-.raceInput {
+.speciesInput {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -114,7 +114,7 @@ button {
   rotate: 180deg;
 }
 
-.raceInputContainer {
+.speciesInputContainer {
   display: flex;
   justify-content: space-between;
   width: 100px;
@@ -193,4 +193,18 @@ input[type="checkbox"]:checked {
 
 .largeText {
   font-size: 20px;
+}
+
+.wealthInputContainer {
+  width: 100px;
+  margin: 0 auto;
+}
+
+.wealthInput {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  width: 100px;
+  padding: 5px 0;
 }

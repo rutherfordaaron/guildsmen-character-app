@@ -1,4 +1,4 @@
-.raceInfo {
+.speciesInfo {
   position: absolute;
   z-index: 31;
   background-color: var(--background-color);
@@ -21,6 +21,6 @@
   height: auto;
 }
 
-.raceStatTable tr td {
+.speciesStatTable tr td {
   padding: 2.5px 15px;
 }
