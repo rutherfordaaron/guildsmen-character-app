@@ -234,7 +234,6 @@ const NewCharacter = () => {
       for (let i = 0; i < newSkills.length; i++) {
         if (newSkills[i].name === key) {
           newSkills[i].modifier = skills[key];
-          console.log(`increasing ${key} to ${value}`);
         }
       }
     }
