@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 import './components/css/CharacterList.css';
 
 
-const CharacterList = (props) => {
-  let [itemToDelete, setItemToDelete] = useState('')
-  let [characters, setCharacters] = useState(JSON.parse(localStorage.getItem('guildsmenCharacters')))
+const CharacterList = () => {
+  let [itemToDelete, setItemToDelete] = useState('');
+  let [characters, setCharacters] = useState(JSON.parse(localStorage.getItem('guildsmenCharacters')));
 
   useEffect(() => {
     localStorage.setItem('guildsmenCharacters', JSON.stringify(characters));

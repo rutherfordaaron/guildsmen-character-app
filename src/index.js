@@ -4,6 +4,7 @@ import CharacterList from './CharacterList';
 import CharacterSheet from './components/CharacterSheet';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import NewCharacter from './NewCharacter';
+import NotFound from './NotFound';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -26,6 +27,7 @@ root.render(
             <Route path={`/${route.join('')}`} key={`route${i}`} element={<CharacterSheet character={el} index={i} />} />
           )
         })}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </HashRouter>
   </React.StrictMode>
