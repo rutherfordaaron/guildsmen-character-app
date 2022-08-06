@@ -59,20 +59,20 @@ class GuildsmenCharacter {
   }
 }
 
-let characters;
-
-if (localStorage.getItem('guildsmenCharacters') === null) {
-  characters = [];
-} else {
-  characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
-}
-
 const toTop = () => {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
 
-const NewCharacter = (props) => {
+const NewCharacter = () => {
+  let characters;
+
+  if (localStorage.getItem('guildsmenCharacters') === null) {
+    characters = [];
+  } else {
+    characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
+  }
+
   let [info, setInfo] = useState({ name: undefined, demeanor: undefined, physique: undefined });
   let [species, setSpecies] = useState(undefined);
   let [luck, setLuck] = useState(undefined);
@@ -146,6 +146,12 @@ const NewCharacter = (props) => {
       document.getElementById("next").innerHTML = "Submit"
     } else {
       document.getElementById("next").innerHTML = 'Next<img src="/static/icons/arrow-right-solid.svg" alt="" class="filter" />'
+    }
+
+    if (index != 0) {
+      document.getElementById("prev").classList.remove("hidden");
+    } else {
+      document.getElementById("prev").classList.add("hidden");
     }
 
     if (index === displayArr.length - 1) {
@@ -282,6 +288,11 @@ const NewCharacter = (props) => {
         break;
     }
 
+    if (skills.Myth > -1) {
+      newCharacter.addiction = 1;
+      newCharacter.addictionProgress = 3;
+    }
+
     characters.push(newCharacter);
     localStorage.setItem("guildsmenCharacters", JSON.stringify(characters));
   }
@@ -291,7 +302,7 @@ const NewCharacter = (props) => {
       <h1>Character Creator</h1>
       {displayArr[display]}
       <div className={`nextPrevBtns ${navBtnState}`}>
-        <button type="button" onClick={nextPrev} id="prev">
+        <button type="button" className="hidden" onClick={nextPrev} id="prev">
           <img src="/static/icons/arrow-left-solid.svg" alt="" className="filter" />Prev
         </button>
         <button type="button" onClick={nextPrev} id="next">
