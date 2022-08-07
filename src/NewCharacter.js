@@ -65,14 +65,6 @@ const toTop = () => {
 }
 
 const NewCharacter = () => {
-  let characters;
-
-  if (localStorage.getItem('guildsmenCharacters') === null) {
-    characters = [];
-  } else {
-    characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
-  }
-
   let [info, setInfo] = useState({ name: undefined, demeanor: undefined, physique: undefined });
   let [species, setSpecies] = useState(undefined);
   let [luck, setLuck] = useState(undefined);
@@ -234,7 +226,6 @@ const NewCharacter = () => {
       for (let i = 0; i < newSkills.length; i++) {
         if (newSkills[i].name === key) {
           newSkills[i].modifier = skills[key];
-          console.log(`increasing ${key} to ${value}`);
         }
       }
     }
@@ -291,6 +282,12 @@ const NewCharacter = () => {
     if (skills.Myth > -1) {
       newCharacter.addiction = 1;
       newCharacter.addictionProgress = 3;
+    }
+
+    let characters = JSON.parse(localStorage.getItem('guildsmenCharacters'));
+
+    if (!characters) {
+      characters = [];
     }
 
     characters.push(newCharacter);
